@@ -54,6 +54,8 @@
         "algorithm": "cpp",
         "string_view": "cpp",
         "memory": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "string": "cpp",
+        "*.inc": "cpp"
     }
 }

@@ -4,7 +4,7 @@
  * @Author: zhengyang
  * @Date: 2021-05-24 09:23:54
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-05-24 10:07:55
+ * @LastEditTime: 2021-05-25 12:01:32
  */
 #include <iostream>
 #include <memory>
@@ -73,8 +73,7 @@ public:
 
     ~Singleton3()
     {
-        singleton3.reset();
-
+        
     };
 private:
     Singleton3(){};
