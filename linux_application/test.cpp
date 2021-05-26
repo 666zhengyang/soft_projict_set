@@ -4,7 +4,7 @@
  * @Author: zhengyang
  * @Date: 2021-05-26 15:06:14
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-05-26 17:59:36
+ * @LastEditTime: 2021-05-26 21:15:40
  */
 #include <dlfcn.h>
 #include <stdio.h>
@@ -21,6 +21,11 @@
 #include <memory>
 #include <iostream>
 #include <string.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <dirent.h>
+#include <stdlib.h>
+
 using namespace std;
     
 /* gcc + - ldl*/
@@ -77,9 +82,78 @@ public:
     {
         munmap(addr, length);
     }
+
+    int Open(const char *pathname, int flags)
+    {
+        return open(pathname, flags);
+    }
+    
+    int Close(int fd)
+    {
+        return close(fd);
+    }
+    
+    int Write(int fd, const void *buf, size_t connt)
+    {
+        return write(fd, buf, connt);
+    }
+    
+    int Read(int fd, void *buf, size_t count)
+    {
+        return read(fd, buf, count);
+    }
+
+    off_t Lseek(int fd, off_t offset, int whence)
+    {
+        return lseek(fd, offset, whence);
+    }
+
+    DIR* Opendir(const char* path)
+    {
+        return opendir(path);
+    }
+
+    struct dirent *Readdir(DIR *dir)
+    {
+        return readdir(dir);
+    }
+
+    int Closedir(DIR *dir)
+    {
+        return closedir(dir);
+    }
+
+    pid_t Creatprocess(void)
+    {
+        return fork();
+    }
+
+    void Exitprocess(int status)
+    {
+        exit(status);
+    }
+    
+    pid_t Waitpid(bool type, pid_t pid, int *status, int options)
+    {
+        if (type == 0)
+            return wait(status);
+        else
+            return waitpid(pid, status, options);
+    }
+
+    int Onexit(void (*function)(int, void*), void* arg)
+    {
+        return on_exit(function, arg);
+    }
 };
 
 typedef int (*fuc_t)(int , int);
+
+void doit(int n, void *arg)
+{
+    cout <<"n is "<< n << "***" << "arg is "<< arg << endl;
+    return;
+}
 
 int main()
 {
@@ -113,10 +187,54 @@ int main()
         perror("ying she shi bai");
         exit(-1);
     }
-    
-    int value = 4;
-    p = &value;
+    *(int *)p = 400;
     cout << "p is " << *(int *)p << endl;
     system_call_server->Munmap(p, 4);
+
+    int flags = O_WRONLY|O_CREAT;
+    int fd = system_call_server->Open("zhengyang.txt", flags);
+    if (fd)
+        cout << "file create successful" << endl;
+    char s[] = "Linux Programmer!";
+    system_call_server->Write(fd, s, sizeof(s));
+    system_call_server->Close(fd);
+    char buffer[30];
+    char buffer2[30];
+    fd = system_call_server->Open("zhengyang.txt", O_RDONLY);
+    int size = system_call_server->Read(fd, buffer, sizeof(buffer));
+    cout << "read size is " << size << endl;
+    cout << "read file is " << buffer << endl;
+    system_call_server->Lseek(fd, 6, SEEK_SET);
+    size = system_call_server->Read(fd, buffer2, sizeof(buffer2));
+    cout << "read size is " << size << endl;
+    cout << "lseek read file is " << buffer2 << endl;
+    system_call_server->Close(fd);
+
+    DIR *dir;
+    struct dirent *dr;
+    const char *path_name = "/home/zhengyang/work/zhengyang/soft_projict_set/linux_application";
+    dir = system_call_server->Opendir(path_name);
+    if (dir == NULL)
+        system_call_server->Perror("opendir");
+    cout << "path get successful" << endl;
+    while(1) {
+        dr = system_call_server->Readdir(dir);
+            if(dr == NULL) break;
+        cout << "file:" << dr->d_name << endl;
+    }
+    system_call_server->Closedir(dir);
+
+    pid_t pid;
+    pid = system_call_server->Creatprocess();
+    if (pid == -1) {
+        system_call_server->Perror("Creatprocess");
+    }
+    if (pid == 0) 
+    {
+        system_call_server->Onexit(doit, (void* )"doit");
+        cout << "this is child process" << endl;
+    } else {
+        cout << "this is parent process" << endl;
+    }
     return 0;
 }
