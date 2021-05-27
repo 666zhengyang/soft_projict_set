@@ -4,7 +4,7 @@
  * @Author: zhengyang
  * @Date: 2021-05-26 15:06:14
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-05-27 15:37:29
+ * @LastEditTime: 2021-05-27 18:13:21
  */
 #include <dlfcn.h>
 #include <stdio.h>
@@ -34,6 +34,13 @@
 #include <semaphore.h>
 #include <time.h>
 #include <sys/sem.h>
+
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
 
 using namespace std;
     
@@ -307,6 +314,202 @@ typedef union semun {
     int   val;
 }semun_t;
 
+int tcp_client() {
+
+    struct sockaddr_in serv_addr;
+    char buf[128];
+    char *msg1 = (char*)"this is a test1\n";
+    char *msg2 = (char*)"this is a test2\n";
+    char *msg3 = (char*)"this is a test3\n";
+    char *msg4 = (char*)"this is a test4\n";
+    char *msg5 = (char*)"this is a test5\n";
+    char *msg[] = {msg1, msg2, msg3, msg4, msg5};
+    //创建一个socket设备
+    int clnt_sock = socket(AF_INET,SOCK_STREAM,0);
+    if (clnt_sock == -1) {
+        perror("socket");
+        return -1;
+    }
+    //需要初始化serv
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    serv_addr.sin_port = htons(6666);
+    //在socket上发起连接向服务器
+    int c = connect(clnt_sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+    if (c==-1) {
+        perror("connect");
+        return -1;
+    }
+    int i = 0;
+    while(1) {     
+        //向服务器发送消息
+        if (i == 5) {
+            i = 0;
+        }
+        write(clnt_sock, msg[i], strlen(msg[i])+1);
+        //阻塞等待服务器的响应消息
+        int r = read(clnt_sock,buf,128);
+        if(strcmp(buf,"EXIT")==0)
+                break;
+        //将响应消息输出到显示器
+        write(1,buf,r);
+        i++;
+        // printf("\n");      
+    }
+    //关闭本次连接
+    close(clnt_sock);
+}
+
+int tcp_server()
+{
+    int serv_sock;
+    int clnt_sock;
+
+    struct sockaddr_in serv_addr;
+    struct sockaddr_in clnt_addr;
+    
+    char message[] = "Hello World!";
+    char buf[128] = {};
+    
+     //创建一个通讯设备
+    serv_sock = socket(PF_INET, SOCK_STREAM, 0);
+    if (serv_sock == -1) 
+    {
+        cout << "serv_sock create failed" << endl;
+        perror("socket");
+        return -1;
+    }
+    memset(&serv_addr, 0, sizeof(serv_addr));
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    serv_addr.sin_port = htons(atoi("6666"));
+    
+    //将sfd绑定到本地的ip地址和端口号
+    int rs = bind(serv_sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+    if(rs == -1){
+        perror("bind");
+        return -1;
+    }
+    //设置sockfd为被动监听状态
+    listen(serv_sock,5);
+    socklen_t clnt_addr_size = sizeof(clnt_addr);
+
+    //从未决连接队列中取出一个，进行处理
+    clnt_sock = accept(serv_sock, (struct sockaddr *)&clnt_addr, &clnt_addr_size);
+    if(clnt_sock == -1){
+        perror("accept");
+        return -1;
+    }
+    while(1) {
+
+        //获取客户端的请求数据
+        int r=read(clnt_sock, buf,128);
+        //处理获取到的数据，将客户发送过来的字符串转换为大写
+        int i;
+        for(i=0;i<r;i++)
+            buf[i]=toupper(buf[i]);
+
+        //响应给客户
+        write(clnt_sock,buf,r);
+
+    }
+    //关闭本次连接
+    close(clnt_sock);
+    close(serv_sock);
+    return 0;
+}
+
+int udp_client()
+{
+    struct sockaddr_in serv_addr, from_addr;
+    socklen_t addr_sz;
+    char buf[128];
+    char *msg1 = (char*)"this is a test1\n";
+    char *msg2 = (char*)"this is a test2\n";
+    char *msg3 = (char*)"this is a test3\n";
+    char *msg4 = (char*)"this is a test4\n";
+    char *msg5 = (char*)"this is a test5\n";
+    char *msg[] = {msg1, msg2, msg3, msg4, msg5};
+    //创建一个socket
+    int clnt_sock = socket(PF_INET,SOCK_DGRAM,0);
+    if(clnt_sock == -1){
+        perror("socket");
+        return -1;
+    }
+    //初始化服务器地址和端口号
+    memset(&serv_addr, 0, sizeof(serv_addr));
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    serv_addr.sin_port = htons(atoi("6666"));
+    int i = 0;
+    while(1)
+    {
+        if (i == 5) {
+            i = 0;
+        }
+        sendto(clnt_sock, msg[i], strlen(msg[i]), 0,
+                (struct sockaddr *)&serv_addr, sizeof(serv_addr));    
+
+        addr_sz = sizeof(from_addr);
+        //阻塞等待服务器的响应消息
+        memset(&buf, 0, sizeof(buf));
+        int rcv=recvfrom(clnt_sock, buf, 128, 0,\
+            (struct sockaddr *)&from_addr, &addr_sz);
+        if(rcv>0)
+            write(1,buf,rcv);
+        i++;
+    }
+    close(clnt_sock);
+    return 0;
+}
+
+int udp_server()
+{
+    struct sockaddr_in serv_addr,clnt_addr;
+    socklen_t cli_len = sizeof(sockaddr_in);
+    socklen_t clnt_addr_sz;
+    char rcv_buf[128];
+    char send_buf[128];
+    //创建一个socket
+    int serv_sock = socket(PF_INET ,SOCK_DGRAM, 0);
+    if(serv_sock==-1){
+        perror("socket");
+        return -1;
+    }
+    //初始化本地地址和端口号
+    memset(&serv_addr, 0, sizeof(serv_addr));
+    serv_addr.sin_family=AF_INET;
+    serv_addr.sin_port=htons(6666);
+    serv_addr.sin_addr.s_addr=htonl(INADDR_ANY);
+    //将sfd绑定到本地地址
+    int b=bind(serv_sock,(struct sockaddr *)&serv_addr,sizeof(serv_addr));
+    if(b==-1){
+        perror("bind");
+        return -1;
+    }
+    while(1){
+        clnt_addr_sz = sizeof(clnt_addr);
+        //接收客户端数据的到来
+        memset(&rcv_buf, 0, sizeof(rcv_buf));
+        int rcv=recvfrom(serv_sock, rcv_buf,128,0,\
+                (struct sockaddr *)&clnt_addr, &clnt_addr_sz);
+        if(rcv==-1){
+            perror("recvfrom");
+            return -1;
+        }
+        // cout << rcv_buf << endl;
+        //处理数据
+        int i;
+        memset(&send_buf, 0, sizeof(send_buf));
+        for(i=0;i<rcv;i++)
+            send_buf[i]=toupper(rcv_buf[i]);
+        //响应客户端
+        sendto(serv_sock, send_buf, 128, 0, (struct sockaddr *)&clnt_addr, sizeof(serv_addr));
+    }
+    close(serv_sock);
+    return 0;
+}
+
 int main()
 {
     char *error;
@@ -378,6 +581,7 @@ int main()
     // getchar();
     system_call_server->Close(fd);
 
+#if 0
     DIR *dir;
     struct dirent *dr;
     const char *path_name = "/home/zhengyang/work/zhengyang/soft_projict_set/linux_application";
@@ -398,19 +602,21 @@ int main()
         pid=0时，等待同一个进程组中的任何子进程，如果子进程已经加入了别的进程组，waitpid不会对它做任何理睬。
         pid<-1时，等待一个指定进程组中的任何子进程，这个进程组的ID等于pid的绝对值。
     */
-    pid_t pid;
+    
     int status;
     int fdd[2];
     char buf[128];
     char *msg = (char *)"this is a msg form parent...\n";
     int pp = pipe(fdd);
     int ff = mkfifo("fifo", 0664);
-    pid = system_call_server->Creatprocess();
+#endif 
+    pid_t pid = system_call_server->Creatprocess();
     if (pid == -1) {
         system_call_server->Perror("Creatprocess");
     }
     if (pid == 0) 
     {
+    #if 0
         /*
             int execl( const char *pathname, const char *arg0, ...(char *)0 );
             int execv( const char *pathname, char *const argv[] );
@@ -445,7 +651,7 @@ int main()
             return -1;
         }
         printf("key=0x%x\n",key);
-#if 0
+
         int msqid=msgget(key,IPC_CREAT|0664);
         if(msqid==-1){
             perror("msgget");
@@ -480,7 +686,7 @@ int main()
         // getchar();
         //解除关联
         shmdt(p);
-#endif
+
         // sem_t 
         //获取一个信号量集的id
         int sem_id = semget(key,1,IPC_CREAT|0664);
@@ -506,9 +712,15 @@ int main()
                 return -1;
             }
         }
+#endif
+        tcp_client();
+        //udp_client();
         // execl(path2_name, "hello", NULL, NULL);
         // execlp("ps","ps","-o","pid,ppid,pgrp,comm",NULL);
     } else {
+        tcp_server();
+        //udp_server();
+#if 0
         int ff_d = system_call_server->Open("fifo", O_WRONLY);
         close(fdd[0]);
         write(fdd[1], msg, strlen(msg));
@@ -527,7 +739,7 @@ int main()
             return -1;
         }
         printf("key=0x%x\n",key);
-#if 0
+
         //使用键值获取消息队列的id
         int msqid=msgget(key,IPC_CREAT|0664);
         if(msqid==-1){
@@ -571,7 +783,7 @@ int main()
         // getchar();
         //解除关联
         shmdt(p);   
-#endif 
+
         //获取一个信号量集的id
         int sem_id = semget(key,1,IPC_CREAT|0664);
         if(sem_id == -1){
@@ -589,6 +801,8 @@ int main()
             printf("get ctl:%d\n",ctl);
             sleep(1);
         }
+#endif 
+
     }
 
     /*
