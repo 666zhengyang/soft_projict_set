@@ -4,7 +4,7 @@
  * @Author: zhengyang
  * @Date: 2021-05-26 15:06:14
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-05-27 18:13:21
+ * @LastEditTime: 2021-05-27 19:43:15
  */
 #include <dlfcn.h>
 #include <stdio.h>
@@ -713,7 +713,7 @@ int main()
             }
         }
 #endif
-        tcp_client();
+        // tcp_client();
         //udp_client();
         // execl(path2_name, "hello", NULL, NULL);
         // execlp("ps","ps","-o","pid,ppid,pgrp,comm",NULL);
