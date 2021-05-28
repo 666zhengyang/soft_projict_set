@@ -4,7 +4,7 @@
  * @Author: zhengyang
  * @Date: 2021-05-28 09:21:17
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-05-28 11:30:59
+ * @LastEditTime: 2021-05-28 11:48:18
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -178,6 +178,12 @@ int *create2(int size) {
     }
     return p_num;
 }
+
+typedef struct {
+    int id;
+    float salary;
+    char name[10];
+} person;
 
 int main(int argc, char *argv[])  {
 #if 0
@@ -1690,8 +1696,133 @@ int main(int argc, char *argv[])  {
             p_num = NULL;
         }
     }
-#endif 
 
+#endif 
+    {
+        int choice = 0;
+        person prsn = {0};
+        FILE *p_file = fopen("person.bin", "ab");
+        if (p_file) {
+            while (1) {
+                printf("请输入id:");
+                scanf("%d", &(prsn.id));
+                printf("请输入工资：");
+                scanf("%g", &(prsn.salary));
+                scanf("%*[^\n]");
+                scanf("%*c");
+                printf("请输入姓名：");
+                fgets(prsn.name, 10, stdin);
+                fwrite(&prsn, sizeof(person), 1, p_file);
+                printf("是否需要输入下一个人员信息？0表示不输入，1表示要输入");
+                scanf("%d", &choice);
+                if (!choice) {
+                    break;
+                }
+            }
+            fclose(p_file);
+            p_file = NULL;
+        }
+    }
+
+    {
+            int choice = 0, id = 0, size = 0, flag = 0;
+    person prsn = {0};
+    FILE *p_file = fopen("person.bin", "a+b");
+    if (p_file) {
+        while (1) {
+            printf("请输入id:");
+            scanf("%d", &(prsn.id));
+            flag = 0;
+            rewind(p_file);
+            while (1) {
+                size = fread(&id, sizeof(int), 1, p_file);
+                if (!size) {
+                    break;
+                }
+                if (id == prsn.id) {
+                    flag = 1;
+                    break;
+                }
+                fseek(p_file, sizeof(person) - sizeof(int), SEEK_CUR);
+            }
+            //fseek(p_file, 0, SEEK_END);
+            if (flag) {
+                continue;
+            }
+            printf("请输入工资：");
+            scanf("%g", &(prsn.salary));
+            scanf("%*[^\n]");
+            scanf("%*c");
+            printf("请输入姓名：");
+            fgets(prsn.name, 10, stdin);
+            fwrite(&prsn, sizeof(person), 1, p_file);
+            printf("是否需要输入下一个人员信息？0表示不输入，1表示要输入");
+            scanf("%d", &choice);
+            if (!choice) {
+                break;
+            }
+            }
+            fclose(p_file);
+            p_file = NULL;    
+        }
+    }
+
+    {
+        char ch = 0;
+        FILE *p_file = fopen("abc.txt", "rb");
+        if (p_file) {
+            //rewind(p_file);
+            fseek(p_file, 2, SEEK_SET);
+            printf("位置指针数值是%ld\n", ftell(p_file));
+            fread(&ch, sizeof(char), 1, p_file);
+            printf("ch是%c\n", ch);
+            //rewind(p_file);
+            fseek(p_file, 4, SEEK_CUR);
+            printf("位置指针数值是%ld\n", ftell(p_file));
+            fread(&ch, sizeof(char), 1, p_file);
+            printf("ch是%c\n", ch);
+            //rewind(p_file);
+            fseek(p_file, -3, SEEK_END);
+            printf("位置指针数值是%ld\n", ftell(p_file));
+            fread(&ch, sizeof(char), 1, p_file);
+            printf("ch是%c\n", ch);
+            fclose(p_file);
+            p_file = NULL;
+        }
+    }
+
+    {
+        FILE *p_src = NULL, *p_dest = NULL;
+        char buf[100] = {0};
+        int size = 0;
+        if (argc < 3) {
+            printf("命令错误\n");
+            return 0;
+        }
+        p_src = fopen(argv[1], "rb");
+        if (!p_src) {
+            printf("原始文件打开失败\n");
+            return 0;
+        }
+        p_dest = fopen(argv[2], "wb");
+        if (!p_dest) {
+            printf("新文件打开失败\n");
+            fclose(p_src);
+            p_src = NULL;
+            return 0;
+        }
+        while (1) {
+            size = fread(buf, sizeof(char), 100, p_src);
+            if (!size) {
+                break;
+            }
+            fwrite(buf, sizeof(char), size, p_dest);
+        }
+        fclose(p_dest);
+        p_dest = NULL;
+        fclose(p_src);
+        p_src = NULL;
+    }
 
     return 0;
 }
