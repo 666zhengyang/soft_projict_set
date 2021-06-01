@@ -4,7 +4,7 @@
  * @Author: zhengyang
  * @Date: 2021-05-26 15:06:14
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-05-27 19:43:15
+ * @LastEditTime: 2021-06-01 15:43:58
  */
 #include <dlfcn.h>
 #include <stdio.h>
@@ -400,7 +400,7 @@ int tcp_server()
         perror("accept");
         return -1;
     }
-    while(1) {
+    // while(1) {
 
         //获取客户端的请求数据
         int r=read(clnt_sock, buf,128);
@@ -408,11 +408,11 @@ int tcp_server()
         int i;
         for(i=0;i<r;i++)
             buf[i]=toupper(buf[i]);
-
+        write(1,buf,r);
         //响应给客户
-        write(clnt_sock,buf,r);
+       // write(clnt_sock,buf,r);
 
-    }
+    // }
     //关闭本次连接
     close(clnt_sock);
     close(serv_sock);

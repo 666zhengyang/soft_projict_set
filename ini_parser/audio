@@ -1,0 +1,15 @@
+[audio_cmd]
+0 = bootup
+1 = startsweep
+2 = pausesweep
+3 = goingsweep
+4 = startgocharging
+5 = pausegocharging
+6 = goinggocharging
+7 = startlocalsweep
+8 = sweepcomplete
+9 = lowbattery
+10 = di
+11 = network_connected
+12 = network_disconnected
+
