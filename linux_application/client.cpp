@@ -4,7 +4,7 @@
  * @Author: zhengyang
  * @Date: 2021-05-27 19:44:47
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-06-01 16:13:17
+ * @LastEditTime: 2021-06-02 14:14:32
  */
 
 #include <sys/socket.h>
@@ -17,11 +17,33 @@
 #include <sys/types.h>
 #include <string.h>
 #include <stdio.h>
+#include <time.h>
+
+long long get_time_of_ns()
+{
+    struct timespec time_now = {0, 0};
+    clock_gettime(CLOCK_MONOTONIC, &time_now);
+    long long time_ns = time_now.tv_sec*1e9 + time_now.tv_nsec;
+}
+
+typedef struct Data {
+    int list[10];//数据
+    long long currentTime;//当前时间戳
+}Data;
+
+
+
 
 int tcp_client() {
+    Data data;
+    int list[10] = {11,12,13,14,15,16,17,18,19,20};
+    for (int i = 0; i < 10; i++) {
+        data.list[i] = list[i];
+    }
+    data.currentTime = get_time_of_ns();
+    
     struct sockaddr_in serv_addr;
-    char buf[128];
-    char *msg = (char*)"this is a info from client\n";
+    char buf[1024];
     //创建一个socket设备
     int clnt_sock = socket(AF_INET,SOCK_STREAM,0);
     if (clnt_sock == -1) {
@@ -41,18 +63,20 @@ int tcp_client() {
         return -1;
     }
     //int i = 0;
-    // while(1) {     
-        write(clnt_sock, msg, strlen(msg)+1);
-        //阻塞等待服务器的响应消息
-        int r = read(clnt_sock,buf,128);
-        if(strcmp(buf,"EXIT")==0)
-               //  break;
-        //将响应消息输出到显示器
-        // write(1,buf,r);
-       // i++;
+    while(1) {   
+        data.currentTime = get_time_of_ns();  
+        // printf("data->currentTime:%lld\n", data.currentTime);
+        write(clnt_sock, (void*)&data, sizeof(Data));
+        // 阻塞等待服务器的响应消息
+       //  int r = read(clnt_sock,buf,128);
+        // if(strcmp(buf,"EXIT")==0)
+               // break;
+        // 将响应消息输出到显示器
+       //  write(1,buf,r);
+        // i++;
         // printf("\n");      
-    // }
-    //关闭本次连接
+    }
+        // 关闭本次连接
     close(clnt_sock);
 }
 

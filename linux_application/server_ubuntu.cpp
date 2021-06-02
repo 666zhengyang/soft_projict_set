@@ -4,7 +4,7 @@
  * @Author: zhengyang
  * @Date: 2021-06-01 15:53:43
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-06-02 14:14:20
+ * @LastEditTime: 2021-06-01 19:52:13
  */
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -19,10 +19,21 @@
 
 using namespace std;
 
-typedef struct Data {
-    int list[10];//数据
-    long long currentTime;//当前时间戳
-}Data;
+typedef struct
+{
+    uint8_t irleft_homecode;               //保险杠左接收头
+    uint8_t irright_homecode;              //保险杠右接收头
+    uint8_t irfl_homecode;                  //正前方左接收头
+    uint8_t irfr_homecode;                  //正前方右接收头
+    uint16_t left_ground_detect;            //左地检
+    uint16_t lm_ground_detect;              //左中地检
+    uint16_t rm_ground_detect;              //右中地检
+    uint16_t right_ground_detect;           //右地检
+    uint16_t forward_look;                  //前视信号
+    uint16_t right_wall;                    //右沿墙信号
+    uint8_t  ir_signal;                     //红外信号
+}ChassisSignal;
+
 
 int tcp_server()
 {
@@ -33,8 +44,7 @@ int tcp_server()
     struct sockaddr_in clnt_addr;
     
     // char message[] = "Hello World!";
-    char buf[sizeof(Data)] = {};
-    Data* data;
+    char buf[1024] = {};
     
      //创建一个通讯设备
     serv_sock = socket(PF_INET, SOCK_STREAM, 0);
@@ -65,37 +75,24 @@ int tcp_server()
         perror("accept");
         return -1;
     }
+    char data[1024] = {0};
     while(1) {
-
+        memset(data, 0 , sizeof(data));
         //获取客户端的请求数据
-        // int r=read(clnt_sock, buf,128);
-        int r = read(clnt_sock, (void*)buf, sizeof(Data));
-        if (r > 0)
-        {
-            
-            data = (Data* )buf;
-            printf("data->list:"); 
-            for (int i = 0; i < 10; i++) {
-                 printf("%d", data->list[i]);
-            }
-            printf("\n"); 
-            printf("data->currentTime:%lld\n", data->currentTime);
-
-        }
-        memset(data, 0, sizeof(Data));   
-
+        int r = read(clnt_sock, data, 128);
         //处理获取到的数据，将客户发送过来的字符串转换为大写
+        write(1,data,r);
+        // cout << data << endl;
         /*
         int i;
         for(i=0;i<r;i++)
             buf[i]=toupper(buf[i]);
         write(1,buf,r);*/
-        
         //响应给客户
        // write(clnt_sock,buf,r);
 
     }
-    // 关闭本次连接
+    //关闭本次连接
     close(clnt_sock);
     close(serv_sock);
     return 0;
