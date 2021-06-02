@@ -4,7 +4,7 @@
  * @Author: zhengyang
  * @Date: 2021-06-01 15:53:43
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-06-01 19:52:13
+ * @LastEditTime: 2021-06-02 15:35:31
  */
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -34,6 +34,7 @@ typedef struct
     uint8_t  ir_signal;                     //红外信号
 }ChassisSignal;
 
+ChassisSignal* signal_data;
 
 int tcp_server()
 {
@@ -44,7 +45,7 @@ int tcp_server()
     struct sockaddr_in clnt_addr;
     
     // char message[] = "Hello World!";
-    char buf[1024] = {};
+    char buf[sizeof(ChassisSignal)] = {};
     
      //创建一个通讯设备
     serv_sock = socket(PF_INET, SOCK_STREAM, 0);
@@ -75,22 +76,27 @@ int tcp_server()
         perror("accept");
         return -1;
     }
-    char data[1024] = {0};
-    while(1) {
-        memset(data, 0 , sizeof(data));
-        //获取客户端的请求数据
-        int r = read(clnt_sock, data, 128);
-        //处理获取到的数据，将客户发送过来的字符串转换为大写
-        write(1,data,r);
-        // cout << data << endl;
-        /*
-        int i;
-        for(i=0;i<r;i++)
-            buf[i]=toupper(buf[i]);
-        write(1,buf,r);*/
-        //响应给客户
-       // write(clnt_sock,buf,r);
 
+    while(1) {
+        // 获取客户端的请求数据
+        int r = read(clnt_sock, (void*)buf, sizeof(ChassisSignal));
+        if (r > 0) {
+            signal_data = (ChassisSignal* )buf;
+            printf("ChassisSignal.irleft_homecode is %d ! \n", signal_data->irleft_homecode);
+            printf("ChassisSignal.irright_homecode is %d ! \n", signal_data->irright_homecode);
+            printf("ChassisSignal.irfl_homecode is %d ! \n", signal_data->irfl_homecode);
+            printf("ChassisSignal.irfr_homecode is %d ! \n", signal_data->irfr_homecode);
+            printf("ChassisSignal.left_ground_detect is %d ! \n", signal_data->left_ground_detect);
+            printf("ChassisSignal.lm_ground_detect is %d ! \n", signal_data->lm_ground_detect);
+            printf("ChassisSignal.rm_ground_detect is %d ! \n", signal_data->rm_ground_detect);
+            printf("ChassisSignal.right_ground_detect is %d ! \n", signal_data->right_ground_detect);
+            printf("ChassisSignal.forward_look is %d ! \n", signal_data->forward_look);
+            printf("ChassisSignal.right_wall is %d ! \n", signal_data->right_wall);
+            printf("ChassisSignal.ir_signal is %d ! \n", signal_data->ir_signal);
+            // 响应给客户
+            // write(clnt_sock,buf,r); 
+        }
+        memset(signal_data, 0 , sizeof(ChassisSignal));
     }
     //关闭本次连接
     close(clnt_sock);
