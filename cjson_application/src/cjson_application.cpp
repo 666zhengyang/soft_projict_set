@@ -4,10 +4,13 @@
  * @Author: zhengyang
  * @Date: 2021-04-15 17:26:53
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-05-21 16:02:13
+ * @LastEditTime: 2021-06-04 17:16:19
  */
 
 #include <cjson_application.h>
+#include <stdio.h>
+#include <iostream>
+#include <unistd.h>
 
 namespace zhengyang 
 {
@@ -37,7 +40,7 @@ SystemSettings::SystemSettings(const char *file_name)
     cJSON *cj_item = nullptr; 
     if (access(file_name, F_OK) != 0)
     {
-        pr_dbg("file_name do not exist\n");
+        printf("file_name do not exist\n");
         std::ofstream file_write_ins(file_name, std::fstream::out);
         strcpy(file_name_, file_name);
         cJSON *json_root_obj = cJSON_CreateObject();
@@ -73,7 +76,7 @@ SystemSettings::SystemSettings(const char *file_name)
 
         cJSON *json_appointment_obj = cJSON_CreateObject();
         cJSON_AddItemToObject(json_root_obj, "appointment_list", json_appointment_obj);
-        pr_dbg("successed init!\n");
+        printf("successed init!\n");
         cj_root_ = json_root_obj;
         char* print_str = cJSON_Print(cj_root_);
         file_write_ins << print_str;
@@ -84,19 +87,19 @@ SystemSettings::SystemSettings(const char *file_name)
     strcpy(file_name_, file_name);
     if (!file_read_ins.is_open())
     {
-        pr_dbg("file_name open failed\n");
+        printf("file_name open failed\n");
         return;
     }
     while(file_read_ins.get(file_char))
         file_contents.push_back(file_char);
     if (file_contents.empty())
     {
-        pr_dbg("file_contents is nullptr!\n");
+        printf("file_contents is nullptr!\n");
     }
     cj_root_ = cJSON_Parse(file_contents.c_str());
     if (!cj_root_)
     {
-        pr_dbg("cj_root_ get failed\n");
+        printf("cj_root_ get failed\n");
     }
     file_read_ins.close();
 }
@@ -116,7 +119,7 @@ void SystemSettings::SystemSettingsToFile(char *settings)
     file.open(file_name_, std::ios::out | std::ios::trunc);
     if (!file.is_open())
     {
-        pr_dbg("file_name open failed\n");
+        printf("file_name open failed\n");
     }
     
     file << settings;
@@ -127,7 +130,7 @@ void SystemSettings::SetSysCfgVersion(std::string version)
 {
     cJSON *json_general_obj = cJSON_GetObjectItem(cj_root_, "general_info");
     if (!cJSON_GetObjectItem(json_general_obj, "sys_cfg_version")) {
-        pr_dbg("sys_cfg_version do not exist\n");      
+        printf("sys_cfg_version do not exist\n");      
         return;
     }
     cJSON_ReplaceItemInObject(json_general_obj, "sys_cfg_version", cJSON_CreateString(version.c_str()));
@@ -139,7 +142,7 @@ void SystemSettings::SetTimeZoneInfo(std::string local)
 {
     cJSON *json_general_obj = cJSON_GetObjectItem(cj_root_, "general_info");
     if (!cJSON_GetObjectItem(json_general_obj, "local")) {
-        pr_dbg("local do not exist\n");      
+        printf("local do not exist\n");      
         return;
     }
     cJSON_ReplaceItemInObject(json_general_obj, "local", cJSON_CreateString(local.c_str()));
@@ -152,7 +155,7 @@ void SystemSettings::SetDustSwitchFlag(bool dust_switch_flag)
     cJSON *json_general_obj = cJSON_GetObjectItem(cj_root_, "general_info");
     if (!cJSON_GetObjectItem(json_general_obj, "dust_switch_flag"))
     {
-        pr_dbg("dust_switch_flag do not exist\n");      
+        printf("dust_switch_flag do not exist\n");      
         return;
     }
     cJSON_ReplaceItemInObject(json_general_obj, "dust_switch_flag", cJSON_CreateBool(dust_switch_flag)); 
@@ -165,7 +168,7 @@ void SystemSettings::SetSilentModeEnble(bool silent_mode_enble)
     cJSON *json_general_obj = cJSON_GetObjectItem(cj_root_, "general_info");
     if (!cJSON_GetObjectItem(json_general_obj, "silent_mode_enble"))
     {
-        pr_dbg("silent_mode_enble do not exist\n");      
+        printf("silent_mode_enble do not exist\n");      
         return;
     }
     cJSON_ReplaceItemInObject(json_general_obj, "silent_mode_enble", cJSON_CreateBool(silent_mode_enble)); 
@@ -177,7 +180,7 @@ void SystemSettings::SetSoundVolume(int8_t sound_volume)
 {
     cJSON *json_general_obj = cJSON_GetObjectItem(cj_root_, "general_info");
     if (!cJSON_GetObjectItem(json_general_obj, "sound_volume")) {
-        pr_dbg("sound_volume do not exist\n");      
+        printf("sound_volume do not exist\n");      
         return;
     }
     cJSON_ReplaceItemInObject(json_general_obj, "sound_volume", cJSON_CreateNumber(static_cast<int>(sound_volume)));
@@ -189,7 +192,7 @@ void SystemSettings::SetSoundPackageInfo(std::string sound_package)
 {
     cJSON *json_general_obj = cJSON_GetObjectItem(cj_root_, "general_info");
     if (!cJSON_GetObjectItem(json_general_obj, "sound_package")) {
-        pr_dbg("sound_package do not exist\n");      
+        printf("sound_package do not exist\n");      
         return;
     }
     cJSON_ReplaceItemInObject(json_general_obj, "sound_package", cJSON_CreateString(sound_package.c_str()));
@@ -202,14 +205,14 @@ GeneralInfo SystemSettings::GetGeneralInfo(void) const
     cJSON *json_general_obj = cJSON_GetObjectItem(cj_root_, "general_info");
     GeneralInfo general_info;
     if (!cJSON_GetObjectItem(json_general_obj, "sound_package")) {
-        pr_dbg("sound_package do not exist\n");      
+        printf("sound_package do not exist\n");      
         general_info.sound_package = nullptr;
     } else {
         general_info.sound_package = static_cast<std::string>(cJSON_GetObjectItem(json_general_obj, "sound_package")->valuestring);
     }
     
     if (!cJSON_GetObjectItem(json_general_obj, "sound_volume")) {
-        pr_dbg("sound_volume do not exist\n");      
+        printf("sound_volume do not exist\n");      
         general_info.sound_volume = 0;
     } else {
         general_info.sound_volume = static_cast<int8_t>(cJSON_GetObjectItem(json_general_obj, "sound_volume")->valueint);
@@ -217,7 +220,7 @@ GeneralInfo SystemSettings::GetGeneralInfo(void) const
 
     if (!cJSON_GetObjectItem(json_general_obj, "silent_mode_enble"))
     {
-        pr_dbg("silent_mode_enble do not exist\n");      
+        printf("silent_mode_enble do not exist\n");      
         general_info.silent_mode_enble = false;
     }
     if (cJSON_GetObjectItem(json_general_obj, "silent_mode_enble")->type == cJSON_False)
@@ -229,7 +232,7 @@ GeneralInfo SystemSettings::GetGeneralInfo(void) const
 
     if (!cJSON_GetObjectItem(json_general_obj, "dust_switch_flag"))
     {
-        pr_dbg("dust_switch_enble do not exist\n");      
+        printf("dust_switch_enble do not exist\n");      
         general_info.dust_switch_flag = false;
     }
     if (cJSON_GetObjectItem(json_general_obj, "dust_switch_flag")->type == cJSON_False)
@@ -240,12 +243,12 @@ GeneralInfo SystemSettings::GetGeneralInfo(void) const
     }
 
     if (!cJSON_GetObjectItem(json_general_obj, "local")) {
-        pr_dbg("local do not exist\n");      
+        printf("local do not exist\n");      
         general_info.local = nullptr;
     }
     general_info.local = static_cast<std::string>((cJSON_GetObjectItem(json_general_obj, "local")->valuestring));
     if (!cJSON_GetObjectItem(json_general_obj, "sys_cfg_version")) {
-        pr_dbg("sys_cfg_version do not exist\n");      
+        printf("sys_cfg_version do not exist\n");      
         general_info.sys_cfg_version = nullptr;
     }
     general_info.sys_cfg_version = static_cast<std::string>((cJSON_GetObjectItem(json_general_obj, "sys_cfg_version")->valuestring));
@@ -256,7 +259,7 @@ void SystemSettings::SetCleanMode(CleanMode mode)
 {
     cJSON *json_action_obj = cJSON_GetObjectItem(cj_root_, "action_info");
     if (!json_action_obj) {
-        pr_dbg("clean_mode do not exist\n");      
+        printf("clean_mode do not exist\n");      
         return;
     }
     std::string clean_mode;
@@ -285,7 +288,7 @@ void SystemSettings::SetSuctionLevel(SuctionLevel suction_level)
 {
     cJSON *json_action_obj = cJSON_GetObjectItem(cj_root_, "action_info");
     if (!json_action_obj) {
-        pr_dbg("suction_level do not exist\n");      
+        printf("suction_level do not exist\n");      
         return;
     }
     std::string level;
@@ -323,11 +326,11 @@ void SystemSettings::SetLeakageGear(LeakageGear leakage_gear)
 {
     cJSON *json_action_obj = cJSON_GetObjectItem(cj_root_, "action_info");
     if (!cJSON_GetObjectItem(json_action_obj, "leakage_gear")) {
-        pr_dbg("leakage_gear do not exist\n");      
+        printf("leakage_gear do not exist\n");      
         return;
     }
     std::string gear;
-    pr_dbg("leakage_gear is %d\n", leakage_gear);
+    printf("leakage_gear is %d\n", leakage_gear);
     switch (leakage_gear) {
         case LeakageGear::NONE:
             gear = std::string("NONE");
@@ -361,7 +364,7 @@ ActionInfo SystemSettings::GetActionInfo(void) const
     actioninfo.suction_level = SuctionLevel::NONE;
     actioninfo.leakage_gear = LeakageGear::NONE;
     if (!cJSON_GetObjectItem(json_action_obj, "clean_mode")) {
-        pr_dbg("clean_mode do not exist\n");      
+        printf("clean_mode do not exist\n");      
         return actioninfo;
     }
     
@@ -377,7 +380,7 @@ ActionInfo SystemSettings::GetActionInfo(void) const
     }
 
     if (!cJSON_GetObjectItem(json_action_obj, "suction_level")) {
-        pr_dbg("suction_level do not exist\n");      
+        printf("suction_level do not exist\n");      
         return actioninfo;
     }
     const char* level = cJSON_GetObjectItem(json_action_obj, "suction_level")->valuestring;
@@ -394,7 +397,7 @@ ActionInfo SystemSettings::GetActionInfo(void) const
     }
     
     if (!cJSON_GetObjectItem(json_action_obj, "leakage_gear")) {
-        pr_dbg("leakage_gear do not exist\n");      
+        printf("leakage_gear do not exist\n");      
         return actioninfo;
     } 
     const char* gear =  cJSON_GetObjectItem(json_action_obj, "leakage_gear")->valuestring;
@@ -416,7 +419,7 @@ void SystemSettings::SetUndisturbedInfo(UndisturbedInfo info)
     if (!cJSON_GetObjectItem(json_undisturbed_obj, "undisturbed_mode_enble") ||\
         !cJSON_GetObjectItem(json_undisturbed_obj, "undisturbed_start_time") ||\
         !cJSON_GetObjectItem(json_undisturbed_obj, "undisturbed_end_time")) {
-        pr_dbg("UndisturbedInfo do not exist\n");      
+        printf("UndisturbedInfo do not exist\n");      
         return;
     }
     cJSON_ReplaceItemInObject(json_undisturbed_obj, "undisturbed_mode_enble", cJSON_CreateBool(info.enable));  
@@ -433,7 +436,7 @@ UndisturbedInfo SystemSettings::GetUndisturbedInfo(void) const
     if (!cJSON_GetObjectItem(json_undisturbed_obj, "undisturbed_mode_enble") ||\
         !cJSON_GetObjectItem(json_undisturbed_obj, "undisturbed_start_time") ||\
         !cJSON_GetObjectItem(json_undisturbed_obj, "undisturbed_end_time")) {
-        pr_dbg("UndisturbedInfo do not exist\n");      
+        printf("UndisturbedInfo do not exist\n");      
         return info;
     }
     if (cJSON_GetObjectItem(json_undisturbed_obj, "undisturbed_mode_enble")->type == cJSON_False)
@@ -451,7 +454,7 @@ StatisticsInfo SystemSettings::GetStatisticsInfo(void) const
 {
     StatisticsInfo statistics_info;
     if (!cJSON_GetObjectItem(cj_root_, "statistics_info")) {
-        pr_dbg("robot_statistics_info do not exist\n");      
+        printf("robot_statistics_info do not exist\n");      
         return statistics_info;
     }
     cJSON* json_statistics_obj = cJSON_GetObjectItem(cj_root_, "statistics_info");
@@ -467,7 +470,7 @@ StatisticsInfo SystemSettings::GetStatisticsInfo(void) const
 void SystemSettings::SetStatisticsInfo(StatisticsInfo statistics_info)
 {
     if (!cJSON_GetObjectItem(cj_root_, "statistics_info")) {
-        pr_dbg("robot_statistics_info do not exist\n");      
+        printf("robot_statistics_info do not exist\n");      
         return;
     }
     cJSON* json_statistics_obj = cJSON_GetObjectItem(cj_root_, "statistics_info");
@@ -486,7 +489,7 @@ std::list<AppointmentInfo> SystemSettings::GetAppointmentsInfo() const
     std::list<AppointmentInfo> appointment_info;
     if (!cJSON_GetObjectItem(cj_root_, "appointment_list"))
     {
-        pr_dbg("child_array is null\n");
+        printf("child_array is null\n");
         return appointment_info;
     } else {
         AppointmentInfo appointment;
@@ -496,7 +499,7 @@ std::list<AppointmentInfo> SystemSettings::GetAppointmentsInfo() const
         {
             cJSON* cj_list_item =  cJSON_GetArrayItem(json_appointment_obj, i);
             if (!cj_list_item) {
-                pr_dbg("cj_list_item is null\n");
+                printf("cj_list_item is null\n");
                 return appointment_info;
             }
             if (cJSON_GetObjectItem(cj_list_item, "repeat_enble")->type == cJSON_False) {

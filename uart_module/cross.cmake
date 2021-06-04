@@ -11,6 +11,7 @@ set(GNU_FLAGS "-Os -pipe -march=armv7-a -mtune=cortex-a7 -mfpu=neon -fno-caller-
 set(CMAKE_CXX_FLAGS "${GNU_FLAGS}")
 set(CMAKE_C_FLAGS "${GNU_FLAGS}")
 
+
 SET(CMAKE_FIND_ROOT_PATH  ${TOOLCHAIN_DIR}
  ${TOOLCHAIN_DIR}/arm-none-linux-gnueabi/include
  ${TOOLCHAIN_DIR}/arm-none-linux-gnueabi/lib )

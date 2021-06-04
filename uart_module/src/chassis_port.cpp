@@ -3,8 +3,8 @@
  * @version: v0.01
  * @Author: curry30
  * @Date: 2020-11-17 14:44:15
- * @LastEditors: curry30
- * @LastEditTime: 2021-02-26 15:29:37
+ * @LastEditors: zhengyang
+ * @LastEditTime: 2021-06-04 18:03:05
  */
 #include "chassis_port.h"
 
@@ -14,7 +14,7 @@ namespace joyrobot
 {
 
 #define MAX_PACKET_SIZE 64
-#define PACKET_A_LENGTH 26
+#define PACKET_A_LENGTH 33
 #define PACKET_B_LENGTH 28
 
 pthread_t hearbeat_tid;

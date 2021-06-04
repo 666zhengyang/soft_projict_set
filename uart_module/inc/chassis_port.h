@@ -3,14 +3,9 @@
  * @version: v0.01
  * @Author: curry30
  * @Date: 2020-11-17 14:44:15
- * @LastEditors: curry30
- * @LastEditTime: 2021-02-26 10:39:05
+ * @LastEditors: zhengyang
+ * @LastEditTime: 2021-06-04 17:37:24
 */
-
-#ifndef CHASSIS_PORT_H_
-#define CHASSIS_PORT_H_
-
-// #include <adk/base/service.h>
 
 #define TAG "chassis_port"
 
@@ -21,16 +16,8 @@
 #include <unistd.h>
 #include <thread>
 #include <stdio.h>
-
-//#include <adk/utils/assert.h>
-//#include <adk/utils/logger.h>
-
 #include "uart.h"
 #include "assert.h"
-
-
-//hui #include <thread>
-//using std::string;
 
 namespace joyrobot {
 
@@ -176,4 +163,3 @@ class ChassisPort {
 
 } // namespace joyrobot
 
-#endif // CHASSIS_PORT_H_

@@ -1,0 +1,7 @@
+/home/zhengyang/work/zhengyang/soft_projict_set/cjson_application/build/CMakeFiles/install.dir
+/home/zhengyang/work/zhengyang/soft_projict_set/cjson_application/build/CMakeFiles/list_install_components.dir
+/home/zhengyang/work/zhengyang/soft_projict_set/cjson_application/build/CMakeFiles/rebuild_cache.dir
+/home/zhengyang/work/zhengyang/soft_projict_set/cjson_application/build/CMakeFiles/system_settings.dir
+/home/zhengyang/work/zhengyang/soft_projict_set/cjson_application/build/CMakeFiles/edit_cache.dir
+/home/zhengyang/work/zhengyang/soft_projict_set/cjson_application/build/CMakeFiles/install/strip.dir
+/home/zhengyang/work/zhengyang/soft_projict_set/cjson_application/build/CMakeFiles/install/local.dir

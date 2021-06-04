@@ -4,13 +4,12 @@
  * @Author: zhengyang
  * @Date: 2021-04-15 17:26:53
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-05-21 16:12:08
+ * @LastEditTime: 2021-06-04 17:12:19
  */
 #pragma once
 
 #include <cjson_application_data.h>
-#include "cjson/cJSON.h"
-#include <adk/utils/logger.h>
+#include <cJSON.h>
 #include <fstream>
 #include <iostream>
 #include <string.h>

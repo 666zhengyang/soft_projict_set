@@ -8,10 +8,10 @@ set(SYSTEM_SETTINGS_SRC_FILES
 )
 
 include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/../libsets/out ${CMAKE_CURRENT_SOURCE_DIR}/../libsets/external_party/out ${CMAKE_CURRENT_SOURCE_DIR}/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/lib  ${CMAKE_CURRENT_SOURCE_DIR}/inc
     )
 
-LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/../libsets/out ${CMAKE_CURRENT_SOURCE_DIR}/../libsets/external_party/out)
+LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 add_definitions()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -std=c++11")
@@ -19,7 +19,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -std=c++11")
 add_executable(system_settings ${SYSTEM_SETTINGS_SRC_FILES})
 
 target_link_libraries(system_settings
-    pthread adk cjson)
+   cjson)
 
 target_include_directories(system_settings
     PRIVATE src)

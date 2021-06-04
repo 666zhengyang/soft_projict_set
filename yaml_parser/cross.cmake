@@ -16,6 +16,5 @@ SET(CMAKE_FIND_ROOT_PATH  ${TOOLCHAIN_DIR}
  ${TOOLCHAIN_DIR}/arm-none-linux-gnueabi/include
  ${TOOLCHAIN_DIR}/arm-none-linux-gnueabi/lib )
 
-#ADD_DEFINITIONS(-DTEST_IPC)
 
 ENDIF(CROSS_COMPILE)
