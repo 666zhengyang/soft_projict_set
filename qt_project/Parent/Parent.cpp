@@ -1,7 +1,16 @@
+/*
+ * @Descripttion: Copyright (C) SHENZHEN JoyLife Robot Co.
+ * @version: v0.01
+ * @Author: zhengyang
+ * @Date: 2021-06-01 14:09:43
+ * @LastEditors: zhengyang
+ * @LastEditTime: 2021-06-02 16:18:55
+ */
 #include <QApplication>
 #include <QWidget>
 #include <QLabel>
 #include <QPushButton>
+#include <QlineEdit>
 
 int main(int argc,char** argv)
 {

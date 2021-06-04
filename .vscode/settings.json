@@ -55,6 +55,8 @@
         "type_traits": "cpp",
         "utility": "cpp",
         "algorithm": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "hash_map": "cpp",
+        "hash_set": "cpp"
     }
 }
