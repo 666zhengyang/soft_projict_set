@@ -11,6 +11,7 @@
 static int clnt_sock;
 static bool state = false;
 
+
 int tcp_client_init()
 {
     struct sockaddr_in serv_addr;

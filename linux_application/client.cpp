@@ -31,9 +31,6 @@ typedef struct Data {
     long long currentTime;//当前时间戳
 }Data;
 
-
-
-
 int tcp_client() {
     Data data;
     int list[10] = {11,12,13,14,15,16,17,18,19,20};
