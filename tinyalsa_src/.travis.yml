@@ -3,7 +3,7 @@ dist: bionic
 sudo: false
 language: c
 compiler:
-        - gcc
+        - arm-openwrt-linux-gnueabi-gcc
         - clang
 
 addons:
