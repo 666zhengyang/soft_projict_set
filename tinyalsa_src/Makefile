@@ -1,0 +1,1 @@
+arm-openwrt-linux-gnueabi-gcc -fPIC -shared limits.c mixer.c pcm.c -o libtinyalsa.so

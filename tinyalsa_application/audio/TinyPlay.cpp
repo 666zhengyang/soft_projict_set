@@ -3,8 +3,8 @@
  * @version: v0.01
  * @Author: curry30
  * @Date: 2021-02-01 16:51:21
- * @LastEditors: curry30
- * @LastEditTime: 2021-03-16 12:26:55
+ * @LastEditors: zhengyang
+ * @LastEditTime: 2021-06-07 14:46:47
  */
 
 
@@ -65,7 +65,7 @@ int  TinyPlay::PlaySample(struct ctx *ctx)
         num_read = fread(buffer, 1, read_size, ctx->file);
         if (num_read > 0)
         {
-            if (pcm_writei(ctx->pcm, buffer,
+            if (pcm_write(ctx->pcm, buffer,
                            pcm_bytes_to_frames(ctx->pcm, num_read)) < 0)
             {
                 fprintf(stderr, "error playing sample\n");

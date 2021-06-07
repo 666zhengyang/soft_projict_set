@@ -58,6 +58,11 @@
         "random": "cpp",
         "hash_map": "cpp",
         "hash_set": "cpp",
-        "string.h": "c"
+        "string.h": "c",
+        "asound.h": "c",
+        "mixer.h": "c",
+        "limits.h": "c",
+        "pcm.h": "c",
+        "asoundlib.h": "c"
     }
 }
