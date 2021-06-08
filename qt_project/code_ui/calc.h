@@ -4,7 +4,7 @@
  * @Author: zhengyang
  * @Date: 2021-06-08 14:43:38
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-06-08 17:36:35
+ * @LastEditTime: 2021-06-08 18:56:02
  */
 #ifndef __CALC_H
 #define __CALC_H
@@ -21,6 +21,7 @@
 #include <QTime>
 #include <QSlider>
 #include <QSpinBox>
+#include <QTimer>
 
 class MyCalc:public QWidget
 {
@@ -33,9 +34,11 @@ private slots:
     void EnableCalcButton(void);
     //计算和显示结果的槽函数
     void CalcClicked(void);  
-    void TimeClicked(void);    
+    void TimeClicked(void);  
+    void TimeOut_Slots(void); 
 
 private:
+    QLabel* m_timerlab;
     QLabel* m_labTime;
     QPushButton* m_btnTime;
     QLabel* m_test_label;
@@ -49,6 +52,7 @@ private:
     QVBoxLayout* m_layout2;
     QSlider* m_slider;
     QSpinBox* m_spinbox;
+    QTimer* m_pTimer;
 };
 
 #endif//__CALC_H

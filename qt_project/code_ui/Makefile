@@ -799,6 +799,9 @@ moc_calc.cpp: ../../../../qt/5.9/gcc_64/include/QtWidgets/QWidget \
 		../../../../qt/5.9/gcc_64/include/QtWidgets/QSpinBox \
 		../../../../qt/5.9/gcc_64/include/QtWidgets/qspinbox.h \
 		../../../../qt/5.9/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		../../../../qt/5.9/gcc_64/include/QtCore/QTimer \
+		../../../../qt/5.9/gcc_64/include/QtCore/qtimer.h \
+		../../../../qt/5.9/gcc_64/include/QtCore/qbasictimer.h \
 		calc.h \
 		moc_predefs.h \
 		../../../../qt/5.9/gcc_64/bin/moc
@@ -951,7 +954,10 @@ calc.o: calc.cpp calc.h \
 		../../../../qt/5.9/gcc_64/include/QtWidgets/qabstractslider.h \
 		../../../../qt/5.9/gcc_64/include/QtWidgets/QSpinBox \
 		../../../../qt/5.9/gcc_64/include/QtWidgets/qspinbox.h \
-		../../../../qt/5.9/gcc_64/include/QtWidgets/qabstractspinbox.h
+		../../../../qt/5.9/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		../../../../qt/5.9/gcc_64/include/QtCore/QTimer \
+		../../../../qt/5.9/gcc_64/include/QtCore/qtimer.h \
+		../../../../qt/5.9/gcc_64/include/QtCore/qbasictimer.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o calc.o calc.cpp
 
 test.o: test.cpp ../../../../qt/5.9/gcc_64/include/QtWidgets/QApplication \
@@ -1094,7 +1100,10 @@ test.o: test.cpp ../../../../qt/5.9/gcc_64/include/QtWidgets/QApplication \
 		../../../../qt/5.9/gcc_64/include/QtWidgets/qabstractslider.h \
 		../../../../qt/5.9/gcc_64/include/QtWidgets/QSpinBox \
 		../../../../qt/5.9/gcc_64/include/QtWidgets/qspinbox.h \
-		../../../../qt/5.9/gcc_64/include/QtWidgets/qabstractspinbox.h
+		../../../../qt/5.9/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		../../../../qt/5.9/gcc_64/include/QtCore/QTimer \
+		../../../../qt/5.9/gcc_64/include/QtCore/qtimer.h \
+		../../../../qt/5.9/gcc_64/include/QtCore/qbasictimer.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o test.o test.cpp
 
 moc_calc.o: moc_calc.cpp 

@@ -4,7 +4,7 @@
  * @Author: zhengyang
  * @Date: 2021-06-08 14:43:34
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-06-08 17:36:14
+ * @LastEditTime: 2021-06-08 19:00:48
  */
 #include "calc.h"
 
@@ -29,6 +29,18 @@ MyCalc::MyCalc(void)
 
     m_close_label = new QPushButton("close_label", this);
 
+    m_timerlab = new QLabel(this);
+    //设置label边框效果
+    m_timerlab->setFrameStyle(
+        QFrame::Panel|QFrame::Sunken);
+    //设置label文本居中对齐
+    m_timerlab->setAlignment(
+        Qt::AlignHCenter|Qt::AlignVCenter);
+    m_pTimer = new QTimer;
+    m_pTimer->setTimerType(Qt::PreciseTimer); // 3.设置定时器对象精确度模式
+    m_pTimer->start(1000);// 5. 开启定时器
+    m_timerlab->move(500, 500);
+    
     m_test_label->move(100 , 500);
     m_close_label->move(100, 600);
     
@@ -98,6 +110,8 @@ MyCalc::MyCalc(void)
         //连接按钮的clicked信号和自定义的槽
     connect(m_btnTime,SIGNAL(clicked()),
             this,SLOT(TimeClicked()));
+    
+    connect(m_pTimer,SIGNAL(timeout()),this,SLOT(TimeOut_Slots()));
 }
 
 void MyCalc::EnableCalcButton(void)
@@ -131,4 +145,10 @@ void MyCalc::TimeClicked(void)
 {
     QString str = QTime::currentTime().toString("hh:mm::ss");
     m_labTime->setText(str);
+}
+
+void MyCalc::TimeOut_Slots(void)
+{
+    QString str = QTime::currentTime().toString("hh:mm::ss");
+    m_timerlab->setText(str);
 }
