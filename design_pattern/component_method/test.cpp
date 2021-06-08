@@ -87,9 +87,9 @@ int main()
     mid1->Add(leaf4);  
     root->Add(mid1);  
     //分公司B  
-    Company *mid2=new ConcreteCompany("分公司B");  
-    FinanceDepartment *leaf5=new FinanceDepartment("财务部");  
-    HRDepartment *leaf6=new HRDepartment("人力资源部");  
+    Company *mid2 = new ConcreteCompany("分公司B");  
+    FinanceDepartment *leaf5 = new FinanceDepartment("财务部");  
+    HRDepartment *leaf6 = new HRDepartment("人力资源部");  
     mid2->Add(leaf5);  
     mid2->Add(leaf6);  
     root->Add(mid2);  
