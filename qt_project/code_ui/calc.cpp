@@ -4,7 +4,7 @@
  * @Author: zhengyang
  * @Date: 2021-06-08 14:43:34
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-06-08 19:00:48
+ * @LastEditTime: 2021-06-09 20:23:01
  */
 #include "calc.h"
 
@@ -139,6 +139,7 @@ void MyCalc::CalcClicked(void)
     //number():double--》QString
     QString str = QString::number(res,'g',15);
     m_resultEdit->setText(str);
+    close();
 }
 
 void MyCalc::TimeClicked(void)
