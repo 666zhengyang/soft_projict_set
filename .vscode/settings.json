@@ -63,6 +63,8 @@
         "mixer.h": "c",
         "limits.h": "c",
         "pcm.h": "c",
-        "asoundlib.h": "c"
+        "asoundlib.h": "c",
+        "kernel.h": "c",
+        "fs.h": "c"
     }
 }
