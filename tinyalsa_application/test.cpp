@@ -4,23 +4,19 @@
  * @Author: curry30
  * @Date: 2020-11-17 14:44:15
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-06-07 11:18:27
+ * @LastEditTime: 2021-06-17 17:41:08
  */
 
 #define TAG "brain_hub"
-
 #include <signal.h>
-
 #include <adk/utils/cmdline.h>
 #include <adk/base/thread.h>
 #include <adk/utils/logger.h>
-
 #include "audio/AudioService.h"
 
 using namespace std;
 
 bool running = true;
-Thread::SharedPtr time_update_commond_ptr;
 
 AudioService myAudioService;
 
