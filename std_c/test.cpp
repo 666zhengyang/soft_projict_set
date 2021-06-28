@@ -11,6 +11,8 @@
 #include <time.h>
 #include <string.h>
 
+// 
+
 void create(int arr[], int size) {
     int num = 0;
     for (num = 0;num <= size - 1;num++) {
@@ -38,6 +40,8 @@ int fei(int num, int arr[], int size) {
     }
     return arr[num - 2] + arr[num - 1];
 }
+
+
 
 void print(const void *p_v, int type) {
     if (!type) {
