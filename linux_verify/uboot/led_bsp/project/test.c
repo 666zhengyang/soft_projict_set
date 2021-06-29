@@ -4,7 +4,7 @@
  * @Author: zhengyang
  * @Date: 2021-06-29 10:13:44
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-06-29 18:18:12
+ * @LastEditTime: 2021-06-29 20:51:38
  */
 
 #include "bsp_clk.h"
@@ -13,11 +13,15 @@
 #include "bsp_beep.h"
 #include "bsp_key.h"
 #include "bsp_timer.h"
+#include "bsp_uart.h"
 
 #define KEY_TEST_ENABLE 0
 #define KEY_EXIT_TEST_ENABLE 0
 #define TIMER_EXIT_TEST_ENABLE 0
-#define KEY_FILTER_TEST_ENABLE 1
+#define KEY_FILTER_TEST_ENABLE 0
+#define TIMER_DELAY_TEST_ENABLE 0
+#define UART_PUT_GET_TEST_ENABLE 0
+#define UART_PRINT_TEST_ENABLE 1
 /*
  * @description	: main函数
  * @param 		: 无
@@ -26,7 +30,7 @@
 int main(void)
 {
 
-#ifdef KEY_TEST_ENABLE
+#if KEY_TEST_ENABLE
 	int i = 0;
 	int keyvalue = 0;
 	unsigned char led_state = OFF;
@@ -64,7 +68,7 @@ int main(void)
 
 #endif
 
-#if 0
+#if KEY_EXIT_TEST_ENABLE
 	 unsigned char state = OFF;
 	int_init(); 		/* 初始化中断(一定要最先调用！) */
 	imx6u_clkinit();	/* 初始化系统时钟 			*/
@@ -81,7 +85,7 @@ int main(void)
 	}
 #endif
 
-#ifdef TIMER_EXIT_TEST_ENABLE
+#if TIMER_EXIT_TEST_ENABLE
 	int_init(); 				/* 初始化中断(一定要最先调用！) */
 	imx6u_clkinit();			/* 初始化系统时钟 			*/
 	clk_enable();				/* 使能所有的时钟 			*/
@@ -98,7 +102,7 @@ int main(void)
 	}
 #endif
 
-#ifdef KEY_FILTER_TEST_ENABLE
+#if KEY_FILTER_TEST_ENABLE
 	unsigned char state = OFF;
 	int_init(); 				/* 初始化中断(一定要最先调用！) */
 	imx6u_clkinit();			/* 初始化系统时钟 			*/
@@ -115,6 +119,74 @@ int main(void)
 	}
 #endif 
 
+#if TIMER_DELAY_TEST_ENABLE
+	unsigned char state = OFF;
+	int_init(); 				/* 初始化中断(一定要最先调用！) */
+	imx6u_clkinit();			/* 初始化系统时钟 			*/
+	delay_init();				/* 初始化延时 			*/
+	clk_enable();				/* 使能所有的时钟 			*/
+	led_init();					/* 初始化led 			*/
+	beep_init();				/* 初始化beep	 		*/
+
+	while(1)			
+	{	
+		state = !state;
+		led_switch(LED0, state);
+		delayms(500);
+	}
+#endif 
+
+#if UART_PUT_GET_TEST_ENABLE
+	unsigned char a=0;
+	unsigned char state = OFF;
+
+	int_init(); 				/* 初始化中断(一定要最先调用！) */
+	imx6u_clkinit();			/* 初始化系统时钟 			*/
+	delay_init();				/* 初始化延时 			*/
+	clk_enable();				/* 使能所有的时钟 			*/
+	led_init();					/* 初始化led 			*/
+	beep_init();				/* 初始化beep	 		*/
+	uart_init();				/* 初始化串口，波特率115200 */
+
+	while(1)				
+	{	
+		puts("请输入1个字符:");
+		a=getc();
+		putc(a);	//回显功能
+		puts("\r\n");
+
+		//显示输入的字符
+		puts("您输入的字符为:");
+		putc(a);
+		puts("\r\n\r\n");
+		
+		state = !state;
+		led_switch(LED0,state);
+	}
+#endif 
+
+#if UART_PRINT_TEST_ENABLE 
+	unsigned char state = OFF;
+	int a , b;
+
+	int_init(); 				/* 初始化中断(一定要最先调用！) */
+	imx6u_clkinit();			/* 初始化系统时钟 			*/
+	delay_init();				/* 初始化延时 			*/
+	clk_enable();				/* 使能所有的时钟 			*/
+	led_init();					/* 初始化led 			*/
+	beep_init();				/* 初始化beep	 		*/
+	uart_init();				/* 初始化串口，波特率115200 */
+	
+	while(1)					
+	{	
+		printf("输入两个整数，使用空格隔开:");
+		scanf("%d %d", &a, &b);					 		/* 输入两个整数 */
+		printf("\r\n数据%d + %d = %d\r\n\r\n", a, b, a+b);	/* 输出两个数相加的和 */
+
+		state = !state;
+		led_switch(LED0,state);
+	}
+#endif
 
 	return 0;
 }

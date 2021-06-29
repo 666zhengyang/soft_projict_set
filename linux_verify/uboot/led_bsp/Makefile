@@ -1,10 +1,13 @@
 CROSS_COMPILE 	?= arm-linux-gnueabihf-
-TARGET		  	?= keyfilter
+TARGET		  	?= uart
 
 CC 				:= $(CROSS_COMPILE)gcc
 LD				:= $(CROSS_COMPILE)ld
 OBJCOPY 		:= $(CROSS_COMPILE)objcopy
 OBJDUMP 		:= $(CROSS_COMPILE)objdump
+
+LIBPATH			:= -lgcc -L /home/zhengyang/work/zhengyang/cross_tools/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf/lib/gcc/arm-linux-gnueabihf/4.9.4
+
 
 INCDIRS 		:= imx6ul \
 				   bsp/clk \
@@ -16,7 +19,9 @@ INCDIRS 		:= imx6ul \
 				   bsp/exit \
 				   bsp/int \
 				   bsp/timer \
-				   bsp/keyfilter
+				   bsp/keyfilter \
+				   bsp/uart \
+				   stdio/include 
 				   			   
 SRCDIRS			:= project \
 				   bsp/clk \
@@ -28,7 +33,9 @@ SRCDIRS			:= project \
 				   bsp/exit \
 				   bsp/int \
 				   bsp/timer \
-				   bsp/keyfilter
+				   bsp/keyfilter \
+				   bsp/uart \
+				   stdio/lib
 				   
 				   
 INCLUDE			:= $(patsubst %, -I %, $(INCDIRS))
@@ -48,7 +55,7 @@ VPATH			:= $(SRCDIRS)
 .PHONY: clean
 	
 $(TARGET).bin : $(OBJS)
-	$(LD) -Timx6ul.lds -o $(TARGET).elf $^
+	$(LD) -Timx6ul.lds -o $(TARGET).elf $^  $(LIBPATH)
 	$(OBJCOPY) -O binary -S $(TARGET).elf $@
 	$(OBJDUMP) -D -m arm $(TARGET).elf > $(TARGET).dis
 
@@ -56,7 +63,7 @@ $(SOBJS) : obj/%.o : %.S
 	$(CC) -Wall -nostdlib -c -O2  $(INCLUDE) -o $@ $<
 
 $(COBJS) : obj/%.o : %.c
-	$(CC) -Wall -nostdlib -c -O2  $(INCLUDE) -o $@ $<
+	$(CC) -Wall  -Wa,-mimplicit-it=thumb -nostdlib -c -O2  $(INCLUDE) -o $@ $<
 	
 clean:
 	rm -rf $(TARGET).elf $(TARGET).dis $(TARGET).bin $(COBJS) $(SOBJS)
