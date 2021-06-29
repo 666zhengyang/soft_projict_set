@@ -65,6 +65,8 @@
         "pcm.h": "c",
         "asoundlib.h": "c",
         "kernel.h": "c",
-        "fs.h": "c"
+        "fs.h": "c",
+        "bsp_led.h": "c",
+        "bsp_timer.h": "c"
     }
 }
