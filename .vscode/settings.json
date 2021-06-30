@@ -67,6 +67,15 @@
         "kernel.h": "c",
         "fs.h": "c",
         "bsp_led.h": "c",
-        "bsp_timer.h": "c"
+        "bsp_timer.h": "c",
+        "bsp_delay.h": "c",
+        "bsp_i2c.h": "c",
+        "bsp_ap3216c.h": "c",
+        "imx6ul.h": "c",
+        "stdio.h": "c",
+        "bsp_gt9147.h": "c",
+        "bsp_icm20608.h": "c",
+        "bsp_lcdapi.h": "c",
+        "bsp_clk.h": "c"
     }
 }
