@@ -1,8 +1,8 @@
 .global _start
-/*entry_func*/
+/* entry_func */
 
 _start:
-/*enable all clock*/
+/* enable all clock */
 ldr r0, = 0X020C4068  /*CCGR0 reg0*/
 ldr r1, = 0XFFFFFFFF
 str r1, [r0]

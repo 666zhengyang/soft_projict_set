@@ -76,6 +76,7 @@
         "bsp_gt9147.h": "c",
         "bsp_icm20608.h": "c",
         "bsp_lcdapi.h": "c",
-        "bsp_clk.h": "c"
+        "bsp_clk.h": "c",
+        "bsp_gpio.h": "c"
     }
 }
