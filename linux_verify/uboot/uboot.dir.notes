@@ -62,3 +62,42 @@ u-boot.map：uboot 映射文件，通过查看此文件可以知道某个函数�
 u-boot.srec：S-Record 格式的镜像文件。
 u-boot.sym：uboot 符号文件。
 u-boot-nodtb.bin：和 u-boot.bin 一样，u-boot.bin 就是 u-boot-nodtb.bin 的复制文件。
+
+7.mmc list  
+// check MMC SDcard  SD EMMC no problem
+mmc dev 0 mmc info 
+mmc dev 1 mmc info 
+
+LCD check  
+// if you picture 
+
+net driver 
+Board Net Initialzation Failded No ethernet found 
+Net: FEC0 
+
+factory board ying jiao yu NXC bu yizhi change driver 
+
+1.uboot qidong zhengyang DRAM shibei zhengque  SDKA he EMMC qudong zhengchang  
+2.uboot LCD 4.3 480x272 
+3. net not success 
+
+1.change owner defulat
+2.do the lCD DRIVER and net qu dong 
+
+add the default defconfig rename 
+change the defconfig 
+
+
+LCD driver:
+xxx.h xxx.c  board name 
+
+LCD GPIO IO is ok?
+LCD GPIO de pei zhi 
+LCD piezhi is ok ?
+
+
+new driver:
+
+ENET1 resert init 
+LAN8720 id 
+lan9720 driver 
