@@ -4,7 +4,7 @@
  * @Author: zhengyang
  * @Date: 2021-06-29 10:13:44
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-07-05 09:28:25
+ * @LastEditTime: 2021-07-07 09:32:33
  */
 
 #include "bsp_led_register.h"
@@ -25,7 +25,7 @@
 #include "bsp_ft5xx6.h"
 #include "bsp_backlight.h"
 
-#define LED_REGISTER_TEST_ENABLE 1
+#define LED_REGISTER_TEST_ENABLE 0
 #define KEY_TEST_ENABLE 0
 #define KEY_EXIT_TEST_ENABLE 0
 #define TIMER_EXIT_TEST_ENABLE 0
@@ -33,7 +33,7 @@
 #define TIMER_DELAY_TEST_ENABLE 0
 #define UART_PUT_GET_TEST_ENABLE 0
 #define UART_PRINT_TEST_ENABLE 0
-#define LCD_TEST_ENABLE 0
+#define LCD_TEST_ENABLE 1
 #define RTC_TEST_ENABLE 0
 #define IIC_TEST_ENABLE 0
 #define SPI_TEST_ENABLE 0
