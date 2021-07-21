@@ -4,7 +4,7 @@
  * @Author: zhengyang
  * @Date: 2021-06-29 15:50:18
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-06-29 15:58:17
+ * @LastEditTime: 2021-07-20 12:26:01
  */
 
 #include "bsp_int.h"
@@ -40,7 +40,7 @@ void system_irqtable_init(void)
 	/* 先将所有的中断服务函数设置为默认值 */
 	for(i = 0; i < NUMBER_OF_INT_VECTORS; i++)
 	{
-		system_register_irqhandler((IRQn_Type)i,default_irqhandler, NULL);
+		system_register_irqhandler((IRQn_Type)i, default_irqhandler, NULL);
 	}
 }
 
