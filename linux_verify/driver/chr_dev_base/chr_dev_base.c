@@ -5,9 +5,8 @@
 #include <linux/init.h>
 #include <linux/module.h>
 
-
 #define CHRDEVBASE_MAJOR	200				/* 主设备号 */
-#define CHRDEVBASE_NAME		"chrdevbase" 	/* 设备名     */
+#define CHRDEVBASE_NAME		"chrdevbase" 	/* 设备名 */
 
 static char readbuf[100];		/* 读缓冲区 */
 static char writebuf[100];		/* 写缓冲区 */

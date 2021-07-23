@@ -4,7 +4,7 @@
  * @Author: zhengyang
  * @Date: 2021-07-12 09:41:50
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-07-12 09:51:50
+ * @LastEditTime: 2021-07-23 17:30:49
  */
 
 #include "stdio.h"
@@ -15,7 +15,7 @@
 #include "stdlib.h"
 #include "string.h"
 
-static char usrdata[] = {"usr data!"};
+static char usrdata[] = { "usr data!" };
 
 /*
  * @description		: main主程序
