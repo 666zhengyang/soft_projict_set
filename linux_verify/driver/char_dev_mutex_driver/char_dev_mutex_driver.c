@@ -21,7 +21,6 @@
 #define LEDOFF 				0			/* 关灯 */
 #define LEDON 				1			/* 开灯 */
 
-
 /* gpioled设备结构体 */
 struct gpioled_dev{
 	dev_t devid;			/* 设备号 	 */

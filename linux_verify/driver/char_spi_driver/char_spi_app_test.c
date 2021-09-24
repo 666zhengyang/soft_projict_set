@@ -4,7 +4,7 @@
  * @Author: zhengyang
  * @Date: 2021-07-14 16:24:10
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-07-14 16:32:15
+ * @LastEditTime: 2021-08-04 12:24:09
  */
 #include "stdio.h"
 #include "unistd.h"
@@ -72,7 +72,6 @@ int main(int argc, char *argv[])
 			accel_y_act = (float)(accel_y_adc) / 2048;
 			accel_z_act = (float)(accel_z_adc) / 2048;
 			temp_act = ((float)(temp_adc) - 25 ) / 326.8 + 25;
-
 
 			printf("\r\n原始值:\r\n");
 			printf("gx = %d, gy = %d, gz = %d\r\n", gyro_x_adc, gyro_y_adc, gyro_z_adc);

@@ -4,7 +4,7 @@
  * @Author: zhengyang
  * @Date: 2021-07-14 14:23:57
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-07-14 14:24:36
+ * @LastEditTime: 2021-08-03 19:57:44
  */
 #include <linux/types.h>
 #include <linux/kernel.h>
@@ -14,7 +14,7 @@
 #include <linux/module.h>
 #include <linux/errno.h>
 #include <linux/gpio.h>
-#include <linux/cdev.h>
+#include <linux/cdev.h> 
 #include <linux/device.h>
 #include <linux/of_gpio.h>
 #include <linux/semaphore.h>
@@ -35,7 +35,7 @@
 #define LEDON 			1
 
 /* leddev设备结构体 */
-struct leddev_dev{
+struct leddev_dev {
 	dev_t devid;				/* 设备号	*/
 	struct cdev cdev;			/* cdev		*/
 	struct class *class;		/* 类 		*/
@@ -146,7 +146,7 @@ static int led_probe(struct platform_device *dev)
 
 	/* 5、初始化IO */	
 	leddev.node = of_find_node_by_path("/gpioled");
-	if (leddev.node == NULL){
+	if (leddev.node == NULL) {
 		printk("gpioled node nost find!\r\n");
 		return -EINVAL;
 	} 
@@ -188,7 +188,7 @@ static const struct of_device_id led_of_match[] = {
 static struct platform_driver led_driver = {
 	.driver		= {
 		.name	= "imx6ul-led",			/* 驱动名字，用于和设备匹配 */
-		.of_match_table	= led_of_match, /* 设备树匹配表 		 */
+		.of_match_table	= led_of_match, /* 设备树匹配表 		*/
 	},
 	.probe		= led_probe,
 	.remove		= led_remove,
@@ -211,7 +211,7 @@ static int __init leddriver_init(void)
  */
 static void __exit leddriver_exit(void)
 {
-	platform_driver_unregister(&led_driver);
+	return platform_driver_unregister(&led_driver);
 }
 
 module_init(leddriver_init);

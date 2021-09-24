@@ -4,7 +4,7 @@
  * @Author: zhengyang
  * @Date: 2021-05-26 15:06:14
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-06-01 15:43:58
+ * @LastEditTime: 2021-08-13 09:35:47
  */
 #include <dlfcn.h>
 #include <stdio.h>
@@ -34,14 +34,11 @@
 #include <semaphore.h>
 #include <time.h>
 #include <sys/sem.h>
-
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-
-
 using namespace std;
     
 /* gcc + - ldl*/
@@ -230,7 +227,7 @@ pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 
 //定义生产者的线程
-void *product(void *arg){
+void *product(void *arg)n{
     node_t *new_node;
     while(1) {
         //生产一个新的节点
@@ -252,7 +249,7 @@ void *product(void *arg){
 }
 
 //定义消费者的线程
-void *consume(void *arg){
+void *consume(void *arg) {
     node_t *tmp;
     while(1){
         //加锁
@@ -280,7 +277,7 @@ queue_t que;//定义了一个环状队列
 sem_t  p,c;//p是可生产的最多数，c是可消费的最多数
 
 //生产者线程
-void *product2(void *arg){
+void *product2(void *arg) {
     int t=0;
     int value;
     while(1){
@@ -297,8 +294,8 @@ void *product2(void *arg){
 }
 
 //消费者线程
-void *consume2(void *arg){
-    int h=0,tmp;
+void *consume2(void *arg) {
+    int h=0, tmp;
     while(1){
         sem_wait(&c);
         tmp=que[h];
@@ -347,12 +344,12 @@ int tcp_client() {
             i = 0;
         }
         write(clnt_sock, msg[i], strlen(msg[i])+1);
-        //阻塞等待服务器的响应消息
-        int r = read(clnt_sock,buf,128);
-        if(strcmp(buf,"EXIT")==0)
+        // 阻塞等待服务器的响应消息
+        int r = read(clnt_sock, buf, 128);
+        if(strcmp(buf, "EXIT")==0)
                 break;
         //将响应消息输出到显示器
-        write(1,buf,r);
+        write(1, buf, r);
         i++;
         // printf("\n");      
     }
@@ -394,7 +391,7 @@ int tcp_server()
     listen(serv_sock,5);
     socklen_t clnt_addr_size = sizeof(clnt_addr);
 
-    //从未决连接队列中取出一个，进行处理
+    // 从未决连接队列中取出一个，进行处理
     clnt_sock = accept(serv_sock, (struct sockaddr *)&clnt_addr, &clnt_addr_size);
     if(clnt_sock == -1){
         perror("accept");
@@ -402,7 +399,7 @@ int tcp_server()
     }
     // while(1) {
 
-        //获取客户端的请求数据
+        // 获取客户端的请求数据
         int r=read(clnt_sock, buf,128);
         //处理获取到的数据，将客户发送过来的字符串转换为大写
         int i;
@@ -413,7 +410,7 @@ int tcp_server()
        // write(clnt_sock,buf,r);
 
     // }
-    //关闭本次连接
+    // 关闭本次连接
     close(clnt_sock);
     close(serv_sock);
     return 0;
@@ -472,28 +469,28 @@ int udp_server()
     char send_buf[128];
     //创建一个socket
     int serv_sock = socket(PF_INET ,SOCK_DGRAM, 0);
-    if(serv_sock==-1){
+    if (serv_sock==-1) {
         perror("socket");
         return -1;
     }
     //初始化本地地址和端口号
     memset(&serv_addr, 0, sizeof(serv_addr));
-    serv_addr.sin_family=AF_INET;
-    serv_addr.sin_port=htons(6666);
-    serv_addr.sin_addr.s_addr=htonl(INADDR_ANY);
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_port = htons(6666);
+    serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
     //将sfd绑定到本地地址
-    int b=bind(serv_sock,(struct sockaddr *)&serv_addr,sizeof(serv_addr));
-    if(b==-1){
+    int b = bind(serv_sock,(struct sockaddr *)&serv_addr,sizeof(serv_addr));
+    if(b == -1) {
         perror("bind");
         return -1;
     }
-    while(1){
+    while(1) {
         clnt_addr_sz = sizeof(clnt_addr);
         //接收客户端数据的到来
         memset(&rcv_buf, 0, sizeof(rcv_buf));
-        int rcv=recvfrom(serv_sock, rcv_buf,128,0,\
+        int rcv = recvfrom(serv_sock, rcv_buf,128,0,\
                 (struct sockaddr *)&clnt_addr, &clnt_addr_sz);
-        if(rcv==-1){
+        if(rcv == -1){
             perror("recvfrom");
             return -1;
         }
@@ -645,14 +642,14 @@ int main()
         // msg_duilie
         msg_t msg3;
         key_t key;
-        key=ftok(".",123);
-        if(key==-1){
+        key = ftok(".",123);
+        if (key==-1) {
             perror("ftok");
             return -1;
         }
         printf("key=0x%x\n",key);
 
-        int msqid=msgget(key,IPC_CREAT|0664);
+        int msqid= msgget (key,IPC_CREAT|0664);
         if(msqid==-1){
             perror("msgget");
             return -1;
@@ -670,14 +667,14 @@ int main()
         // share_memory 
 
         //使用键值获取共享内存的id
-        int shmid=shmget(key,1024,IPC_CREAT|0664);
+        int shmid = shmget(key,1024,IPC_CREAT|0664);
         if(shmid==-1){
             perror("shmget");
             return -1;
         }
         printf("shmid=%d\n",shmid);
         //将共享内存段和进程建立联系
-        void *p=shmat(shmid,NULL,0);
+        void *p = shmat(shmid,NULL,0);
         if(p==(void *)-1){
             perror("shmat");
             return -1;
@@ -855,9 +852,7 @@ int main()
         printf("i=%d\n",i);
 
     int ret=alarm(0);
-     printf("ret=%d\n",ret);*/
-
-
+    printf("ret=%d\n",ret);*/
     /*
         SIG_BLOCK：增加一个信号集合到当前进程的阻塞集合之中.
         SIG_UNBLOCK：从当前的阻塞集合之中删除一个信号集合.
@@ -899,32 +894,33 @@ int main()
     // pthread test
     void *ret;
     pthread_t tid;
-    //创建一个线程
+    // 创建一个线程
     pthread_create(&tid, NULL, doit3, (void *)"new life");
-    //主线程阻塞等待新的线程汇合.同步
+    // 主线程阻塞等待新的线程汇合.同步
     pthread_join(tid, &ret);
     printf("doit3 exit code %d\n", *((int*)(&ret)));
 
     pthread_create(&tid,NULL,doit4,NULL);
-    //主线程阻塞等待新的线程汇合.同步
+    // 主线程阻塞等待新的线程汇合.同步
     pthread_join(tid,&ret);
     printf("doit4 exit code %d\n", *((int*)(&ret)));
 
     pthread_create(&tid,NULL,doit5,NULL);
     sleep(1);
-    pthread_cancel(tid);//给线程发送取消请求
-    //主线程阻塞等待新的线程汇合.同步
+    pthread_cancel(tid);
+    // 给线程发送取消请求
+    // 主线程阻塞等待新的线程汇合.同步
     pthread_join(tid,&ret);
     printf("doit5 exit code %d\n", *((int*)(&ret)));
 
     /*product consume test*/
         pthread_t pid,cid;
-    srand(time(NULL));//设置随机数的种子
+    srand(time(NULL)); // 设置随机数的种子
 
-    //创建两个线程分别用于生产者和消费者
+    // 创建两个线程分别用于生产者和消费者
     pthread_create(&pid,NULL,product,NULL);
     pthread_create(&cid,NULL,consume,NULL);
-    //阻塞等待线程的汇合
+    // 阻塞等待线程的汇合
     pthread_join(pid,NULL);
     pthread_join(cid,NULL);
     pthread_mutex_destroy(&mutex);
@@ -932,17 +928,17 @@ int main()
 
     pthread_t  pid,cid;
     srand(time(NULL));
-    //初始化信号量的值
+    // 初始化信号量的值
     sem_init(&p,0,6);
     sem_init(&c,0,0);
 
-    //创建两个线程，一个用于生产者，一个用于消费者
+    // 创建两个线程，一个用于生产者，一个用于消费者
     pthread_create(&pid,NULL,product2,NULL);
     pthread_create(&cid,NULL,consume2,NULL);
-    //阻塞等待线程汇合
+    // 阻塞等待线程汇合
     pthread_join(cid,NULL);
     pthread_join(pid,NULL);
-    //销毁信号量
+    // 销毁信号量
     sem_destroy(&p);
     sem_destroy(&c);
 #endif

@@ -4,7 +4,7 @@
  * @Author: zhengyang
  * @Date: 2021-06-29 10:13:44
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-07-07 09:32:33
+ * @LastEditTime: 2021-08-02 11:23:24
  */
 
 #include "bsp_led_register.h"
@@ -33,9 +33,9 @@
 #define TIMER_DELAY_TEST_ENABLE 0
 #define UART_PUT_GET_TEST_ENABLE 0
 #define UART_PRINT_TEST_ENABLE 0
-#define LCD_TEST_ENABLE 1
+#define LCD_TEST_ENABLE 0
 #define RTC_TEST_ENABLE 0
-#define IIC_TEST_ENABLE 0
+#define IIC_TEST_ENABLE 1
 #define SPI_TEST_ENABLE 0
 #define IIC_INT_TEST_ENABLE 0
 #define BACKLIGHT_TEST_ENABLE 0

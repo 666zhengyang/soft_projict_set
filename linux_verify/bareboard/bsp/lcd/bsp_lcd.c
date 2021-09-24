@@ -4,8 +4,9 @@
  * @Author: zhengyang
  * @Date: 2021-06-30 09:30:17
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-06-30 09:41:57
+ * @LastEditTime: 2021-07-30 19:51:03
  */
+
 #include "bsp_lcd.h"
 #include "bsp_gpio.h"
 #include "bsp_delay.h"
@@ -22,15 +23,13 @@ struct tftlcd_typedef tftlcd_dev;
 void lcd_init(void)
 {
 	unsigned short lcdid = 0;
-
-	lcdid = lcd_read_panelid();		/* 读取屏幕ID值 		*/
+	lcdid = lcd_read_panelid();		/* 读取屏幕ID值 */
 	printf("LCD ID=%#X\r\n", lcdid);
 
-	lcdgpio_init();			/* 初始化IO 			*/
-	lcd_reset();			/* 复位LCD  			*/
-	delayms(10);			/* 延时10ms 			*/
-	lcd_noreset();			/* 结束复位 			*/
-
+	lcdgpio_init();			/* 初始化IO */
+	lcd_reset();			/* 复位LCD  */
+	delayms(10);			/* 延时10ms */
+	lcd_noreset();			/* 结束复位 */
 
 	/* TFTLCD参数结构体初始化 */
 	if(lcdid == ATK4342) {
@@ -117,7 +116,7 @@ void lcd_init(void)
      * bit [20] 1 : DOTCLK模式下设置为1
      * bit [17:0] : vsw参数
 	 */
-	LCDIF->VDCTRL0 = 0;	//先清零
+	LCDIF->VDCTRL0 = 0;	// 先清零
 	LCDIF->VDCTRL0 = (0 << 29) | (1 << 28) | (0 << 27) |
 					 (0 << 26) | (0 << 25) | (1 << 24) |
 					 (1 << 21) | (1 << 20) | (tftlcd_dev.vspw << 0);
@@ -263,8 +262,6 @@ unsigned short lcd_read_panelid(void)
 void lcdgpio_init(void)
 {
 	gpio_pin_config_t gpio_config;
-	
-
 	/* 1、IO初始化复用功能 */
 	IOMUXC_SetPinMux(IOMUXC_LCD_DATA00_LCDIF_DATA00,0);
 	IOMUXC_SetPinMux(IOMUXC_LCD_DATA01_LCDIF_DATA01,0);
@@ -313,30 +310,30 @@ void lcdgpio_init(void)
 	 *bit [5:3]: 111 驱动能力为R0/7
 	 *bit [0]: 1 高转换率
 	 */
-	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA00_LCDIF_DATA00,0xB9);
-	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA01_LCDIF_DATA01,0xB9);
-	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA02_LCDIF_DATA02,0xB9);
-	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA03_LCDIF_DATA03,0xB9);
-	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA04_LCDIF_DATA04,0xB9);
-	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA05_LCDIF_DATA05,0xB9);
-	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA06_LCDIF_DATA06,0xB9);
-	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA07_LCDIF_DATA07,0xB9);
-	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA08_LCDIF_DATA08,0xB9);
-	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA09_LCDIF_DATA09,0xB9);
-	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA10_LCDIF_DATA10,0xB9);
-	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA11_LCDIF_DATA11,0xB9);
-	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA12_LCDIF_DATA12,0xB9);
-	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA13_LCDIF_DATA13,0xB9);
-	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA14_LCDIF_DATA14,0xB9);
-	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA15_LCDIF_DATA15,0xB9);
-	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA16_LCDIF_DATA16,0xB9);
-	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA17_LCDIF_DATA17,0xB9);
-	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA18_LCDIF_DATA18,0xB9);
-	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA19_LCDIF_DATA19,0xB9);
-	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA20_LCDIF_DATA20,0xB9);
-	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA21_LCDIF_DATA21,0xB9);
-	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA22_LCDIF_DATA22,0xB9);
-	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA23_LCDIF_DATA23,0xB9);
+	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA00_LCDIF_DATA00, 0xB9);
+	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA01_LCDIF_DATA01, 0xB9);
+	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA02_LCDIF_DATA02, 0xB9);
+	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA03_LCDIF_DATA03, 0xB9);
+	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA04_LCDIF_DATA04, 0xB9);
+	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA05_LCDIF_DATA05, 0xB9);
+	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA06_LCDIF_DATA06, 0xB9);
+	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA07_LCDIF_DATA07, 0xB9);
+	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA08_LCDIF_DATA08, 0xB9);
+	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA09_LCDIF_DATA09, 0xB9);
+	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA10_LCDIF_DATA10, 0xB9);
+	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA11_LCDIF_DATA11, 0xB9);
+	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA12_LCDIF_DATA12, 0xB9);
+	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA13_LCDIF_DATA13, 0xB9);
+	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA14_LCDIF_DATA14, 0xB9);
+	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA15_LCDIF_DATA15, 0xB9);
+	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA16_LCDIF_DATA16, 0xB9);
+	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA17_LCDIF_DATA17, 0xB9);
+	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA18_LCDIF_DATA18, 0xB9);
+	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA19_LCDIF_DATA19, 0xB9);
+	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA20_LCDIF_DATA20, 0xB9);
+	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA21_LCDIF_DATA21, 0xB9);
+	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA22_LCDIF_DATA22, 0xB9);
+	IOMUXC_SetPinConfig(IOMUXC_LCD_DATA23_LCDIF_DATA23, 0xB9);
 
 	IOMUXC_SetPinConfig(IOMUXC_LCD_CLK_LCDIF_CLK,0xB9);
 	IOMUXC_SetPinConfig(IOMUXC_LCD_ENABLE_LCDIF_ENABLE,0xB9);
@@ -443,7 +440,6 @@ inline void lcd_drawpoint(unsigned short x,unsigned short y,unsigned int color)
   	*(unsigned int*)((unsigned int)tftlcd_dev.framebuffer + 
 		             tftlcd_dev.pixsize * (tftlcd_dev.width * y+x))=color;
 }
-
 
 /*
  * @description		: 读取指定点的颜色值

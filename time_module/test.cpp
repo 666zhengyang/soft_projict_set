@@ -4,10 +4,12 @@
  * @Author: zhengyang
  * @Date: 2021-05-21 20:14:59
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-06-04 17:30:24
+ * @LastEditTime: 2021-08-19 09:41:18
  */
 #include "time_module.h"
 #include "stdio.h"
+#include <time.h>  
+#include <sys/time.h> 
 
 
 /*
@@ -54,3 +56,12 @@ int main()
     timeIns->TimeSyncStop();
     return 0;  
 }  
+
+static void get_curtime()
+{
+    tm* time_cur;
+    time_t _second;
+    time(&_second);
+    time_cur = localtime(&_second);
+    printf("time_cur is:%s",asctime(time_cur));
+}

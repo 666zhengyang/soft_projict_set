@@ -1,0 +1,7 @@
+/home/zhengyang/test/test_bin/build/CMakeFiles/install.dir
+/home/zhengyang/test/test_bin/build/CMakeFiles/list_install_components.dir
+/home/zhengyang/test/test_bin/build/CMakeFiles/rebuild_cache.dir
+/home/zhengyang/test/test_bin/build/CMakeFiles/test_bin.dir
+/home/zhengyang/test/test_bin/build/CMakeFiles/install/local.dir
+/home/zhengyang/test/test_bin/build/CMakeFiles/install/strip.dir
+/home/zhengyang/test/test_bin/build/CMakeFiles/edit_cache.dir

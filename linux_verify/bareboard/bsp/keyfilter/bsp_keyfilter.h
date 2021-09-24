@@ -4,12 +4,13 @@
  * @Author: zhengyang
  * @Date: 2021-06-29 18:02:16
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-06-29 18:03:13
+ * @LastEditTime: 2021-07-30 19:19:31
  */
 
 #ifndef _BSP_KEYFILTER_H
 #define _BSP_KEYFILTER_H
-/* 函数声明 */
+
+/*函数声明*/
 void filterkey_init(void);
 void filtertimer_init(unsigned int value);
 void filtertimer_stop(void);

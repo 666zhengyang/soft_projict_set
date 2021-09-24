@@ -4,7 +4,7 @@
  * @Author: zhengyang
  * @Date: 2021-06-01 15:53:43
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-06-02 14:14:20
+ * @LastEditTime: 2021-08-09 11:39:02
  */
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -84,15 +84,16 @@ int tcp_server()
         }
         memset(data, 0, sizeof(Data));   
 
-        //处理获取到的数据，将客户发送过来的字符串转换为大写
+        // 处理获取到的数据，将客户发送过来的字符串转换为大写
         /*
-        int i;
-        for(i=0;i<r;i++)
-            buf[i]=toupper(buf[i]);
-        write(1,buf,r);*/
+            int i;
+            for(i=0;i<r;i++)
+                buf[i]=toupper(buf[i]);
+            write(1,buf,r);
+        */
         
-        //响应给客户
-       // write(clnt_sock,buf,r);
+        // 响应给客户
+        // write(clnt_sock,buf,r);
 
     }
     // 关闭本次连接

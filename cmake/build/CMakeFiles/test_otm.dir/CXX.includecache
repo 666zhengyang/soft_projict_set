@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/zhengyang/work/zhengyang/soft_projict_set/cmake/test.cpp
+stdio.h
+/home/zhengyang/work/zhengyang/soft_projict_set/cmake/stdio.h
+unistd.h
+/home/zhengyang/work/zhengyang/soft_projict_set/cmake/unistd.h
+

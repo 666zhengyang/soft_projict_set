@@ -4,23 +4,22 @@
  * @Author: zhengyang
  * @Date: 2021-05-28 09:21:17
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-05-28 11:48:18
+ * @LastEditTime: 2021-08-06 20:32:41
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-
 // 
-
 void create(int arr[], int size) {
     int num = 0;
-    for (num = 0;num <= size - 1;num++) {
+    for (num = 0; num <= size - 1; num++) {
         arr[num] = rand() % 36 + 1;
     }
 }
 
-int val;     //全局变量
+int val;  // 全局变量
 void func(void) {
     int num = 10;
     int val = 100;
@@ -28,20 +27,21 @@ void func(void) {
 }
 
 int fei(int num, int arr[], int size) {
-    //static int arr[50] = {0};
+    // static int arr[50] = {0};
     if (num <= 1) {
         return 1;
     }
+    
     if (!arr[num - 2]) {
         arr[num - 2] = fei(num - 2, arr, size);
     }
+
     if (!arr[num - 1]) {
         arr[num - 1] = fei(num - 1, arr, size);
     }
+    
     return arr[num - 2] + arr[num - 1];
 }
-
-
 
 void print(const void *p_v, int type) {
     if (!type) {
@@ -1729,7 +1729,7 @@ int main(int argc, char *argv[])  {
     }
 
     {
-            int choice = 0, id = 0, size = 0, flag = 0;
+    int choice = 0, id = 0, size = 0, flag = 0;
     person prsn = {0};
     FILE *p_file = fopen("person.bin", "a+b");
     if (p_file) {

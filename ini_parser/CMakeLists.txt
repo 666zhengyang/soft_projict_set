@@ -2,13 +2,14 @@ project(INI_PARSER)
 cmake_minimum_required(VERSION 2.8.12)
 include (../../cross.cmake)
 
-set(INI_PARSER_SRC_FILES
+set (INI_PARSER_SRC_FILES
     ini_parser.cpp
 )
 
-include_directories(
+include_directories (
     ${CMAKE_CURRENT_SOURCE_DIR}/../../framework/out
 )
+
 add_definitions()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -std=c++11")
 add_library(ini_parser SHARED ${INI_PARSER_SRC_FILES})

@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/zhengyang/test/test_bin/test_bin.cpp
+stdio.h
+/home/zhengyang/test/test_bin/stdio.h
+unistd.h
+/home/zhengyang/test/test_bin/unistd.h
+

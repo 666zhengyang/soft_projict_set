@@ -1,10 +1,10 @@
 /*
- * @Descripttion: Copyright (C) SHENZHEN JoyLife Robot Co.
- * @version: v0.01
- * @Author: zhengyang
- * @Date: 2021-06-30 11:03:51
+ *  @Descripttion: Copyright (C) SHENZHEN JoyLife Robot Co.
+ *  @version: v0.01
+ *  @Author: zhengyang
+ *  @Date: 2021-06-30 11:03:51
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-06-30 11:50:17
+ * @LastEditTime: 2021-08-02 11:19:44
  */
 
 #ifndef _BSP_IIC_H
@@ -42,7 +42,6 @@ struct i2c_transfer
     unsigned char *volatile data;    	/* 数据缓冲区 			*/
     volatile unsigned int dataSize;  	/* 数据缓冲区长度 			*/
 };
-
 
 /*
  *函数声明

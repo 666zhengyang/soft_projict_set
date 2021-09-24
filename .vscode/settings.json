@@ -77,6 +77,23 @@
         "bsp_icm20608.h": "c",
         "bsp_lcdapi.h": "c",
         "bsp_clk.h": "c",
-        "bsp_gpio.h": "c"
+        "bsp_gpio.h": "c",
+        "bsp_lcd.h": "c",
+        "time.h": "c",
+        "cdev.h": "c",
+        "device.h": "c",
+        "types.h": "c",
+        "init.h": "c",
+        "module.h": "c",
+        "uaccess.h": "c",
+        "unistd.h": "c",
+        "csignal": "cpp",
+        "forward_list": "cpp",
+        "future": "cpp",
+        "valarray": "cpp",
+        "codecvt": "cpp",
+        "any": "cpp",
+        "optional": "cpp",
+        "*.ipp": "cpp"
     }
 }

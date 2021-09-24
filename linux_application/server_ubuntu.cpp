@@ -4,7 +4,7 @@
  * @Author: zhengyang
  * @Date: 2021-06-01 15:53:43
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-06-02 15:35:31
+ * @LastEditTime: 2021-08-09 11:41:13
  */
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -47,7 +47,7 @@ int tcp_server()
     // char message[] = "Hello World!";
     char buf[sizeof(ChassisSignal)] = {};
     
-     //创建一个通讯设备
+    // 创建一个通讯设备
     serv_sock = socket(PF_INET, SOCK_STREAM, 0);
     if (serv_sock == -1) 
     {

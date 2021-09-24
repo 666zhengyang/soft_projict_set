@@ -1,69 +1,73 @@
-/*
- * @Descripttion: Copyright (C) SHENZHEN JoyLife Robot Co.
+/* @Descripttion: Copyright (C) SHENZHEN JoyLife Robot Co.
  * @version: v0.01
  * @Author: zhengyang
  * @Date: 2021-05-28 11:39:29
  * @LastEditors: zhengyang
- * @LastEditTime: 2021-06-29 09:09:13
+ * @LastEditTime: 2021-08-06 20:19:43
  */
-#include <iostream>
-#include <cstdio>
-#include <ctime>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
-#include <iomanip> //setw(4)
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <cmath>
-#include <iomanip>//带参数的流控制符
+
+#include  <iostream>
+#include  <cstdio>
+#include  <ctime>
+#include  <unistd.h>
+#include  <stdlib.h>
+#include  <string.h>
+#include  <iomanip>  // setw(4)
+#include  <iostream>
+#include  <fstream>
+#include  <sstream>
+#include  <cmath>
+#include  <iomanip>  // 带参数的流控制符
+
 using namespace std;
 
-void foo(int a){
+void foo (int a) {
     cout << "foo(int)" << endl;
 }
-void foo(void){
+
+void foo (void) {
     cout << "foo(void)" << endl;
 }
-void foo(int x,int y){
+
+void foo (int x, int y) {
     cout << "foo(int,int)" << endl;
 }
-void foo(int x,float f){
+
+void foo (int x, float f) {
     cout << "foo(int,float)" << endl;
 }
 
 //char-->int:升级转换
-void bar(int i){
+void bar(int i) {
     cout << "bar(1)" << endl;
 }
 //char-->const char:常量转换
-void bar(const char c){
+void bar(const char c) {
     cout << "bar(2)" << endl;
 }
 //short->char:降级转换
-void fun(char c){
+void fun(char c) {
     cout << "fun(1)" << endl;
 }
 //short->int:升级转换
-void fun(int i){
+void fun(int i) {
     cout << "fun(2)" << endl;
 }
 //short->long long int:过分升级转换
 //在编译器看来和降级转换同样差
-void fun(long long int l){
+void fun(long long int l) {
     cout << "fun(3)" << endl;
 }
 //省略号匹配
-void hum(int i,...){
+void hum(int i,...) {
     cout << "hum(1)" << endl;
 }
 //double->int，降级转换
-void hum(int i,int j){
+void hum(int i,int j) {
     cout << "hum(2)" << endl;
 }
 
-int func(void){
+int func(void) {
     int a = 100;
     return a;//分配临时变量=a
 }
@@ -77,13 +81,13 @@ void swap1(int* x,int* y)
 }
 //将引用定义为函数参数，其引用的目标就是
 //实参变量，这时形参就是实参的别名
-void swap2(int& x,int& y){
+void swap2(int& x,int& y) {
     x = x ^ y;
     y = x ^ y;
     x = x ^ y;
 }
 
-void swap3(const char*& x,const char*& y){
+void swap3(const char*& x,const char*& y) {
     const char* tmp = x;
     x = y;
     y = tmp;
@@ -93,6 +97,7 @@ struct Student{
     char name[128];
     int age;
 };
+
 void print(const Student& s){
     cout << s.name << ','
         << s.age/*++*/ << endl;
@@ -119,13 +124,16 @@ public:
     void eat(const string& food){
         cout << "我吃" << food << endl;
     }
+
     void sleep(int hour){
         cout << "我睡了" << hour << 
             "小时" << endl;
     }
+
     void learn(const string& course){
         cout << "我在学" << course << endl;
     }
+
     void who(void){
         cout << "我叫" << m_name << ",今年"
             << m_age << "岁，学号是" <<
@@ -142,6 +150,7 @@ public:
         else
             m_name = name;
     }
+
     void setAge(int age){
         if(age < 0)
             cout << "无效年龄" << endl;
@@ -154,6 +163,7 @@ public:
         else
             m_no = no;
     }
+
 private:
     //成员变量：描述对象属性
     string m_name;
@@ -170,11 +180,13 @@ public:
         m_age = age;
         m_no = no;
     }
+
     void who(void){
         cout << "我叫" << m_name << ",今年"
             << m_age << "岁,学号是" <<
             m_no << endl;
     }
+
 private:
     string m_name;
     int m_age;
@@ -189,6 +201,7 @@ public:
         m_min = local->tm_min;
         m_sec = local->tm_sec;
     }
+
     void run(void){
         while(1){
             printf("\r%02d:%02d:%02d",
@@ -205,6 +218,7 @@ public:
             sleep(1);
         }
     }
+
 private:
     int m_hour;
     int m_min;
@@ -221,6 +235,7 @@ public:
         m_age = age;
         m_no = no;
     }
+
     /*Teacher(const string& name){
         cout << "构造函数2" << endl;
         m_name = name;
@@ -231,6 +246,7 @@ public:
         cout << m_name << "," << m_age 
             << "," << m_no << endl;
     }
+
 private:
     string m_name;
     int m_age;
@@ -279,6 +295,7 @@ public:
         cout << "C::C(int=0)" << endl;
         m_data = data;
     }
+
     //拷贝构造函数
     C(const C& that){
         cout << "C::C(const C&)" << endl;
@@ -293,12 +310,14 @@ public:
         cout << "A3::A3(int=0)" << endl;
         m_data = data;
     }
+
     A3(const A3& that){
         cout << "A3::A3(const A3&)" << endl;
         m_data = that.m_data;
     }
     int m_data;
 };
+
 class B2{
 public:
     int m_i;//基本类型成员变量
@@ -310,6 +329,7 @@ public:
     A4(void){
         cout << "无参构造函数" << endl;
     }
+    
     A4(const A4& that){
         cout << "拷贝构造函数" << endl;
     }
@@ -695,7 +715,7 @@ public:
     string m_name;
 };
 
-class Student6{
+class Student6 {
 public:
     Student6(const string& name)
         :m_name(name){}
@@ -1151,7 +1171,8 @@ public:
     }
     int m_i;
 };
-class Derived5:public Base5{
+
+class Derived5:public Base5 {
 public:
     Derived5(void):m_i(0){}
     Derived5(int i1,int i2)
@@ -1184,6 +1205,7 @@ public:
 private:
     string m_number;
 };
+
 //播放器类
 class Player{
 public:
@@ -1196,6 +1218,7 @@ public:
 private:
     string m_media;
 };
+
 //计算机类
 class Computer{
 public:
@@ -1207,6 +1230,7 @@ public:
 private:
     string m_os;
 };
+
 //智能手机类
 class SmartPhone:public Phone,
                 public Player,
@@ -1298,7 +1322,7 @@ private:
     int m_w;//宽和高
     int m_h;
 };
-class Circle:public Shape{
+class Circle:public Shape {
 public:
     Circle(int x,int y,int r)
         :Shape(x,y),m_r(r){}
@@ -2215,15 +2239,15 @@ int main()
     }
 
     {
-        /*Employee emp("张飞",10086,2);
+        /*Employee emp("张飞", 10086, 2);
         emp.printInfo();
         emp.paySalary();*/
 
-        /*Technician tech("孔明",10011,5,30);
+        /*Technician tech("孔明", 10011, 5, 30);
         tech.printInfo();
         tech.paySalary();*/
 
-        /*Manager manager("刘备",10010,6,5000);
+        /*Manager manager("刘备", 10010, 6, 5000);
         manager.printInfo();
         manager.paySalary();*/
 
@@ -2318,48 +2342,48 @@ int main()
     }
 
     {
-        class A{
+        class A {
         public:
-            void func(void){
+            void func(void) {
                 throw -1;
             }
-            ~A(void){
+            ~A(void) {
                 throw -2;
             }
         };
-            try{
+            try {
                 A a;
                 a.func();
                 //...
             }//-->A::~A()
-            catch(int ex){
+            catch(int ex) {
                 cout << "异常：" << ex << endl;
                 return -1;
             }
     }
 
     {
-        class FileError:public exception{
+        class FileError:public exception {
         public:
-            const char* what(void)const throw(){
+            const char* what(void)const throw() {
                 return "FileError";
             }
             ~FileError(void)throw(){}
         };
-        class MemoryError:public exception{
+        class MemoryError:public exception {
         public:
-            const char* what(void)const throw(){
+            const char* what(void)const throw() {
                 return "MemoryError";
             }
             ~MemoryError(void)throw(){}
         };
 
-        try{
+        try {
                 char* pc = new char[0xffffffff];
                 //throw MemoryError();
                 //throw FileError();
             }
-            catch(exception& ex){
+            catch(exception& ex) {
                 cout << ex.what() << endl;
                 return -1;
             } 
@@ -2368,7 +2392,7 @@ int main()
     {
         class FileError{};
         class MemoryError{};
-        class Base{
+        class Base {
         public:
             virtual void func(void)
                 throw(FileError,MemoryError){
@@ -2376,10 +2400,10 @@ int main()
             }
             virtual ~Base(void)throw(){}
         };
-        class Derived:public Base{
+        class Derived:public Base {
         public:
             void func(void)
-                throw(FileError){
+                throw(FileError) {
                 cout << "Derived::func" << endl;  
             }
             //string m_str;
@@ -2391,33 +2415,33 @@ int main()
     }
 
     {
-        //间接基类A
-        class A{
+        // 间接基类A
+        class A {
         protected:
             int m_a;
         };
 
-        //直接基类B
-        class B: virtual public A{
-        protected:
-            int m_b;
+        // 直接基类B
+        class B: virtual public A {
+            protected:
+                int m_b;
         };
 
-        //直接基类C
-        class C: virtual public A{
-        protected:
-            int m_c;
+        // 直接基类C
+        class C: virtual public A {
+            protected:
+                int m_c;
         };
 
         //派生类D
-        class D: public B, public C{
-        public:
-            void seta(int a){ m_a = a; }  //命名冲突
-            void setb(int b){ m_b = b; }  //正确
-            void setc(int c){ m_c = c; }  //正确
-            void setd(int d){ m_d = d; }  //正确
-        private:
-            int m_d;
+        class D: public B, public C {
+            public:
+                void seta(int a){ m_a = a; }  //命名冲突
+                void setb(int b){ m_b = b; }  //正确
+                void setc(int c){ m_c = c; }  //正确
+                void setd(int d){ m_d = d; }  //正确
+            private:
+                int m_d;
         };    
         D d;
     }
