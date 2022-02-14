@@ -282,6 +282,7 @@ int main(int argc, char *argv[])  {
         printf("num是%d\n", num);
     }    
 
+
     {
         int num = 0, num1 = 0;
         printf("请输入两个数字：");
