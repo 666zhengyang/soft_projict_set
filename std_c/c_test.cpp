@@ -33,6 +33,8 @@ int fei(int num, int arr[], int size) {
     }
     
     if (!arr[num - 2]) {
+
+
         arr[num - 2] = fei(num - 2, arr, size);
     }
 
@@ -103,6 +105,7 @@ int area(const rect *p_r) {
     int ret = (p_r->pt1.row - p_r->pt2.row) * (p_r->pt1.col - p_r->pt2.col);
     return ret >= 0 ? ret : 0 - ret;
 }
+
 pt *midpt(const rect *p_r, pt *p_mid) {
     p_mid->row = (p_r->pt1.row + p_r->pt2.row) / 2;
     p_mid->col = (p_r->pt1.col + p_r->pt2.col) / 2;
@@ -135,6 +138,7 @@ typedef struct {
     pt center;
     int radius;
 } circle;
+
 void larger(const circle *p_cl1, const circle *p_cl2, circle **pp_cl) {
     *pp_cl = (circle *)(p_cl1->radius > p_cl2->radius ? p_cl1 : p_cl2);
 }
@@ -579,7 +583,8 @@ int main(int argc, char *argv[])  {
         scanf("%d", &num);
         switch (num) {
             case 0:
-                printf("假\n");
+                printf("假\n");git config --global core.editor "vim"
+
                 break;
             default:
                 printf("真\n");
@@ -1077,8 +1082,8 @@ int main(int argc, char *argv[])  {
     }
 
     {
-            int grade = 0;
-    char str[50] = {0}, tmp[10] = {0};
+    int grade = 0;
+    char str[50] = {0},y tmp[10] = {0};
     while (1) {
         printf("请输入一个考试成绩：");
         scanf("%d", &grade);
@@ -1347,7 +1352,8 @@ int main(int argc, char *argv[])  {
         float height;
         char name[10];
     } sperson;
-            //struct person prsn;   //结构体变量声明语句
+
+    // struct person prsn;   //结构体变量声明语句
     sperson prsn1 = {20, 1.74f, "abc"};
     sperson prsn2 = {0};
     sperson *p_person = &prsn1;

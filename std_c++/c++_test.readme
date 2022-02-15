@@ -1,0 +1,873 @@
+一、C++语言技术
+----------------------------------
+DAY01 C++ 开发
+----------------------------------
+1.C++背景
+1)计算机语言的排行榜
+java C C++ python C#
+
+2)C++发展历程 
+基于C语言 增加了类的机制 
+
+3)C++应用场景
+1.游戏开发
+2.科学计算
+3.网络通信   ACE 库 非常成熟的库
+4.操作系统 和 设备驱动
+5.其它... 
+
+2.C++与C的区别
+1.它们都是静态编译型语言 
+2.它们都是强类型语言 但是 C++ 更强
+3.C++兼容C语言
+
+CPP C++的后缀方式 
+gcc xx.cpp -lstdc++ 
+g++ xx.cpp 
+
+知识点1：头文件 <iostream>
+using namespace std; 标准名字空间
+std::func();
+
+3.标准输入输出函数
+1)cin对象表示标准输入 scanf 
+int num;
+cin>>num;
+>>：称为提取运算符
+
+int i;
+double d;
+scanf("%d%lf",&i，&d); //C
+cin >> i >>d; //C++ 
+
+2)cout对象表示标准输出 //类似printf 
+endl; \n 换行 
+
+3)std::标准名字空间 
+名字空间 (namespace) 
+ 1 名字空间作用 
+ 1)避免名字冲突 
+ 2)划分逻辑单元
+
+ 2 定义名字空间
+ namespace 名字空间名{
+    名字空间成员 1;
+    名字空间成员 2;
+    ...
+    名字空间成员n;
+ }成员可以是全局变量  函数名 类型 名字空间
+eg：
+    namespace csd1711{
+        char *p = "李辉";
+        void func(void){...};
+        struct Student{...};
+        namespace ns2{...};
+    }
+    int main(void){
+        csd1711::fuc();
+    }
+
+知识点3:
+C++中的struct
+struct里面包括
+成员变量 和 成员函数
+struct Student{
+    char name[20];
+    int age;
+    void who(void){
+        cout<<"我叫"<<name<<",今年"
+        <<age <<"岁。"<<endl;
+    }
+}
+
+int main(void){
+    /*struct*/Student s = {"张飞"，25};
+    cout<<s.name<<endl;//张飞
+    cout<<s.age<<endl;//25
+    //访问结构体里面函数方法 和成员变量一致
+    s.who();
+}
+
+二、C++特性
+4.字符串 
+1) char *
+2) char[]
+3) 双引号常量字符串 ""
+    char arr[12] = "hello world";
+    strcpy(arr,"jianggl@tedu.cn");
+    cout<<arr<<endl; //数组越界使用
+    
+    char* p = "hello";
+    strcpy(p,"world");
+    cout << p <<endl;
+
+1.兼容C字符串 增加了 string 字符串 泛型数据类型
+2.字符串的相关操作
+= == != > >= < <=
+比较字符串的大小 都是比较ASCII的值
+都是以首写的字母的ASCII码的值来表示的
+4.size() length()
+转换为C风格字符串const char*
+
+bool类型 
+逻辑类型 true flase 
+
+运算符 
+&& and || or { } ...
+代码一定要写注释
+
+5. 函数重载 
+实现函数的多态
+void draw(int x,int y, int r)
+void draw(int x,int y,int z,intr)
+strcpy strncpy 
+重点:
+在相同作用域
+相同函数名 
+参数有所区分 这样的多个函数构成重载关系
+重载匹配：
+调用重载关系的函数 编译器根据实参和形参
+匹配程度 自动选择最优的匹配版本
+
+g++编译器一般匹配规则：
+完全匹配 >= 常量转换 > 升级转换 > 降级转换 > 省略号
+// short ---> int 升级 会出现字节浪费 
+// short ---> char 降级 会出现字节丢失
+char --> const char 
+char* --> const char*
+6.哑元函数
+1)只有类型而没有变量名的形参称为哑元
+void func(int )
+2)使用哑元场景 
+--》兼容旧代码 
+7.缺省参数 默认实参
+void func(int a,int b, int c=0){}
+send 
+recv 
+
+8.内联函数
+C++中inline关键字的函数
+称为内敛函数 编译器将会尝试做内联优化 提高函数的调用效率
+多次调用小而简单的函数适合做内联
+
+调用次数极少或者大的复杂的函数不适合内联
+递归不适合内联
+
+9.new delete
+动态内存分配 
+程序员自动申请内存
+
+1) 回顾C中动态内存分配
+分配：malloc() calloc() realloc() 
+释放：free()
+错误处理：返回值
+
+2) C++中使用new 和 delete运算符 分配和释放内存
+1) 分配new/new[]
+2) 释放delete/ delete[]
+3) 错误处理：异常处理机制 后面讲
+
+3) int* pi =（int*)malloc(4);
+int* pi = new int;
+C++中new delete malloc free
+int* pi = new int;
+*pi = 123;
+delete pi;
+
+new 同时可以进行初始化
+int* pi = new int(123);
+delete pi;
+
+// 分配10个int内存空间
+int* parr = new int[10];
+delete[] pi;
+
+使用场景类似
+表现形式：
+区别：
+new delete 运算符 
+malloc free 函数 
+
+10.引用
+1.定义 
+引用即别名 引用就是某个变量的别名 初始化以后就不能
+再修改引用的目标
+
+2.普通的引用只能引用左值  常引用是万能引用
+常引用既可以是左值 又可以是右值
+是否能放在运算符的左侧或者是右侧
+
+3.引用型函数参数 
+将引用用于函数的参数 这时形参变量就是实参变量 
+的别名，可以通过形参直接修改实参变量的值 
+同时减小函数的调用开销
+
+引用型参数有可能意外修改实参变量，
+如果不希望修饰实参本身 可以将形参定义为
+常引用 提高传参效率 同时还可以接收常量型
+的实参
+
+5. 引用和指针 
+C++编译器帮我们做了很多的工作 
+避免了许多工作
+从 C的角度看引用的本质就是常量指针 
+int* const pa = &a;
+*pa == ra 
+int& ra = a
+
+11.类型转换
+1.隐式转换
+char c = 'A';
+int n = c;
+void foo(){}
+
+2.显式类型转换
+1.强转
+int i = (int)c 
+int i = int (c)
+
+2.四种操作符类形式的显示类型转换 
+char c = 'A';
+int i = static_cast<int>(c);
+
+2.动态类型转换 
+目标类型变量 = dynamic_cast<目标类型>(源类型变量)
+
+3.常量类型转换
+目标类型变量 = const_cast<目标类型>(源类型变量)
+用于去除一个指针或引用的常属性
+int a= 10;
+const int*pa = &a;
+*pa = 20；//error 
+int* pa2 = const_cast<int*>(pa)
+*pa2 = 20;//ok
+
+4.重解释类型转换
+volatile 易变的 告诉编译器每次 
+使用该变量时，都要小心从内存内读取，而不要直接从寄存器中保留
+的副本 防止编译器优化引发错误
+
+1.慎用宏 可以用const inline enum替换
+2.变量随用随声明同时初始化 
+int sum;
+for(int i = 1;  i<=100; i++）{
+    sum +=i;
+}
+3.尽量使用new / delete 取代malloc / free 
+4.少用void* 指针计算 联合体 强制转换
+
+三、封装
+
+12 面向对象 和 面向过程的思想 
+面向对象 加工的类 
+封装 抽象 多态 继承 抽象描述 属性行为
+刻画细节 还是面向过程的编程
+
+类就是现实中的对象抽象成类 
+类可以实例化对象
+
+13.类的初始化 对象 封装特性的介绍
+1.类的语法形式 
+class/struct 类名: 继承方式 基类,...{
+访问控制限定符：
+类名(形参表): 初始化表{函数体}
+~类名(void){函数体}//
+返回类型 函数名()const{函数体}
+数据类型 变量名; //成员变量
+};
+
+2.访问控制限定符：
+1.public 公有成员 
+2.private 私有成员 
+3.protected 后面讲
+
+3.构造函数 constructor 
+class 类名{
+    //构造函数
+    类名(形参表){
+        //函数体
+    }
+}
+
+1) 函数名 与 类名相同 没有返回类型
+2) 构造函数主要负责初始化对象 即初始化成员变量
+
+// 通过构造函数初始化类 
+// 通过成员函数的接口来间接访问 
+// 在函数中可以对非法数据加以限制 
+// 对逻辑性的合理性
+// 对象被创建 《===》构造函数被自动调用
+
+class student{
+// 注意C++的 name的是m_name
+// age 的是m_age
+// string m_name 是字符型 
+private:
+    int m_age;
+    int m_no;
+    string m_name;
+public:
+    // 无参构造函数
+    // 特殊的成员函数 初始化类
+    student(const string& name,int age, int no) { 
+        m_name = name;
+        m_age = age;
+        m_no = no;
+    }
+    //有参构造函数 
+    //成员函数 
+    void who(void){
+        cout<<"我叫"<<m_name<<",今年"
+        <<m_age<<"岁，学号是"<<m_no<<endl;
+    }
+    void setAge(int age){
+        if(age < 0){
+            cout<<"无效年龄"<<endl;
+        }
+        else{
+            m_age = age;
+        }
+    }
+    void setNo(int no){
+        if(no < 1000){
+            cout<<"无效学号"<<endl;
+        }
+        else{
+            m_no = no;
+        }
+    }
+    student(){
+    
+    }
+    //
+}
+
+int main(){
+    Student s;
+    s.setName("二");
+    s.setAge()
+    return 0;
+}
+
+4.在堆区创建/销毁对象数组
+类名* 对象指针 = 
+new 类名[元素个数]{
+    类名(构造实参表),...
+}
+delete 对象指针;
+
+5. 多文件编程：
+类的声明 和 定义可以分别放在不同的文件当中
+1) 类的声明 一般放在xx.h头文件中
+2) 类的实现 一般放在xx.cpp 源文件中
+3) 类的使用者通常放在其他文件中 main.cpp
+
+14.构造函数和初始化表
+1.构造函数可以重载 也可以带有缺省参数
+class xx{
+    xx()
+}
+//默认缺省的无参构造函数
+//类型转换构造函数
+//构造函数在创建对象时自动被调用
+
+2.构造函数的重载 
+
+3.拷贝构造函数
+用一个已经存在的对象构造同类型的副本对象，会调用
+该类的拷贝构造函数 
+class 类名{
+    类名(const 类名& that){
+        ...
+    }
+    class A{...};
+    A a1;
+    A a2(a1);
+    A a2 = a1; //和上面写法完全等价
+}
+
+#include <iostrem>
+using namespace std;
+class A{
+    public：
+    A(int data = 10){
+        m_data = data;
+    }
+
+    A(const A& that){
+    cout<<"拷贝构造函数"<<endl;
+        m_data = that.m_data;
+    }
+
+    int m_data;
+
+int main(void){
+    A a1(123);
+    A a2(a1);
+    cout<<a1.m_data<<','<<a2.m_data<<endl;
+    return 0;
+}
+如果一个类没有定义拷贝构造函数，那么编译器会为该类
+提供一个缺省的拷贝构造函数。
+class A{
+    A(void){
+    }
+    A(const A& that){
+        
+    }
+}
+
+拷贝构造函数 也是 构造函数 提供一个缺省的拷贝构造函数。
+--》对基本类型成员变量 按字节复制
+--》对类类型成员变量 调用相应类的拷贝构造函数来初始化 
+
+注：一般不需要自己定义拷贝构造函数，因为编译器提供的缺省
+拷贝构造函数已经很好了。
+
+拷贝构造函数的调用时机 
+--》用已定义的对象作为同类型对象的构造实参 
+--》已对象形式向函数传递参数
+--从函数中返回对象 有时可能会被编译器优化掉
+
+15. this 指针 
+this 是一个关键字 是类成员函数当中隐藏的一个参数
+名为this 在成员函数访问类中的其它成员 实际都是通过this指针完成的。
+--》对于普通的成员函数 this 指向调用函数的对象 。
+--》对于构造函数，this指向正在被创建的对象
+
+--》区分作用域 
+从成员函数返回调用对象自身
+this 指向调用对象
+*this 就是调用对象自身
+return *this;//返回调用对象自身 
+
+eg:
+cout<<a;
+cout<<c;
+
+-->从类内部销毁对象自身
+
+counter& add(void){
+    ++m_data;
+    return *this;//返回自引用
+}
+常函数 const 
+class 类名{
+    返回类型 函数名(形参表) const{
+        函数体
+    }
+}
+
+16 .析构函数 Destructor 
+1.析构和构造函数类似是类中特殊成员函数
+class 类名{
+    ~类名(void){
+        //主要负责清理对象构造时所分配的动态资源
+    }
+}
+
+17. 拷贝构造 和 拷贝赋值
+1) 如果一个类中包含指针形式的成员变量，缺省拷贝构造函数
+只是复制了指针变量本身，而没有复制指针所指向的内容
+浅拷贝 只拷贝形式 编号本身
+2) 浅拷贝将导致不同对象间的数据共享 
+如果数据在堆区 会在析构时引发 double free 的异常 
+导致进程终止 
+3) 为了避免浅拷贝的问题,必须自己定义一个支持复制指针所指向内容的拷贝构造函数
+即深拷贝 拷贝了指针所指向的内容
+
+class string{
+public:
+    // 构造函数
+    String(const char* str){
+        m_str = new char[strlen(str) + 1];
+        strcpy(m_str,str);
+    }
+    // 析构函数 
+    ~String(void）{
+        delete[] m_str;
+        m_str = NULL;
+    }
+    // 拷贝构造 (深拷贝)
+    String(const string& that){
+        m_str = new char[strlen(that.m_str)];
+        strcpy(m_str,that.m_str);
+    }
+    string& operator=(const string& that){
+        if(&that != this){
+            delete[] m_str;
+            m_str = new char[strlen(that.m_str)];
+            strcpy(m_str,that.m_str);
+        }
+        return *this;
+    }
+    // 拷贝赋值
+    // 访问接口函数
+    const char* c_str(void)const{
+        return m_str;
+    }
+private:
+    char* m_str;
+}
+
+18.静态成员 
+1 静态成员变量 
+class 类名{
+    static 数据类型 变量名;
+};
+数据类型 类名::变量 = 初值;
+1)静态成员变量不属于对象,也不能在构造函数中定义和初始化
+而需要在类的外部单独定义和初始化。
+2)静态成员变量内存在全局去 属于一个被限制在类中的一个全局bi
+变量 
+3）使用方法 
+类名::静态成员变量名
+对象.静态成员变量 
+
+
+2.静态成员函数
+ class 类名{
+    static 返回类型 函数名(形参表){...}
+}
+1.它里面没有this指针,也没有const属性
+2.使用方法：
+类名::静态成员函数名(实参表);
+对象.静态成员函数名(实参表);
+3.在静态成员函数中只能访问静态成员 不能访问非静态成员 
+3.单例模式 
+1)定义
+一个类只能创建唯一的对象， 并提供它的访问方法
+2)实现方法：
+禁止在类外部创建对象，私有化构造函数 
+类的内部维护唯一的对象，静态成员变量 
+提供访问单例对象的方法：静态成员函数
+3)创建单例模式方式：
+饿汉式：无论用或者不用 程序启动即创建 
+空间换时间 
+懒汉式：用时在创建，不用了即销毁
+时间花费比较多 内存消耗少 
+时间换空间 
+class singleton{
+public:
+    static singlton& getInstance{
+        return s_instance;
+    }
+private:
+    static singleton s_instance;
+};
+#include <iosream>
+using namespace std;
+class Singleton{
+public:
+    Singleton s_instance 
+private:
+    static sinleton
+}
+
+19.操作符重载
+1 双目操作符
++ - * 
+L#R L.operator#(R)的成员函数调用形式 该函数返回值就是表达式的
+结果
+class Complex{
+public:
+Complex(int r,int i);m_r
+}
+2 全局函数形式 
+L#R 的表达式可以被编译器翻译成L.operator#(R)
+
+3.插入 提取操作符：<< >> 
+
+4.下标操作符[]
+功能：让对象能够像数组一样去使用
+string s = "hello";
+s[0] = 'H';//s.operator[](0)
+
+四、继承
+20.继承inheritance
+1.继承的概念
+   通过一种机制表达类型之间的共性 和 特性的方式
+利用已有的数据类型定义新的数据类型，这种机制就是继承。
+
+eg：实现 人 学生 教师 3个类 
+人类：姓名 年龄 吃饭 睡觉 
+学生类：姓名 年龄 吃饭 睡觉 学号 学习 
+教师类：姓名 年龄 吃饭 睡觉 工资 讲课 
+
+eg:利用继承方式实现人 学生 教师 3个类 
+人类：姓名 年龄 吃饭 睡觉 
+学生类继承人类：学号 学习 
+教师类继承人类：工资  讲课 
+
+人类(基类、父类)
+学生类  教师类 子类  派生类
+
+基类 派生  子类 
+子类 继承  基类 
+2.继承语法 
+class 子类：继承方式1 基类1，继承方式2 基类2，
+...{.......};    
+继承方式：
+1)公有继承 public 
+2)保护继承 protected 
+3)私有继承 private
+class 人类{姓名 年龄 吃饭 睡觉};
+class 学生类：public 人类{
+    学号 、学习
+}
+#include <iostream>
+using namespace std;
+
+class Human{
+    public:
+        Human(const string& name,int age)
+        :m_name(name),m_age(age){}
+        void eat(const string& food){
+            cout << "我在吃" << food << endl;
+        }
+        void sleep(int hour){
+            cout <<"我睡了" << hour<<"小时"<<endl;
+        }
+    protected:
+    //保护型成员可以在类的内部 和 子类中访问
+        string m_name;
+        int m_age;
+}
+
+class Student:public Human{
+    public:
+        Student(const string& name, int age, int no)
+        ：Human(name,age),m_no(no){}
+        void who(void){
+            cout<<""<<m_name<<""<<m_age<<""<<m_no
+            <<endl;
+        }
+        void learn(const string& course){
+            cout<< "我在学" << course <<endl;
+        }
+    private:
+        int m_no;
+}
+ 
+class Teacher:public Human{
+public:
+    Teacher(const string& name, int age, double salary)
+    :Human(name,age),m_salary(salary){}
+    void who(void){
+        
+    }
+    void teacher(){
+    
+    }
+private:
+    double m_salary;
+};
+
+int main(void){
+    Student s("关羽",30,10011);
+    s.who();
+    s.eat("兰州拉面");
+    
+}
+
+3.公有继承的特性
+1) 子类对象会继承基类的属性 和 行为 
+通过子类对象可以访问基类中的成员  如同是基类对象在访问它们一样
+
+2)向上造型
+将子类类型的指针或引用转换为基类类型指针或引用
+
+基类 
+  |
+子类
+
+3)向下造型 
+将基类的指针或引用转换为子类类型的指针或引用
+这种操作性放大的类型转换在编译器看 是危险的
+
+基类
+  |
+子类
+
+4)子类继承基类的成员
+在子类中，可以访问基类中的公有成员和保护成员 
+如果它们是子类自己成员一样
+
+基类中私有成员子类也可以继承过来 但是会收到
+访问控制属性的限制 无法直接访问
+如果需要访问基类的私有成员 需要通过
+基类提供公有或保护的函数来间接访问
+
+基类中的构造和析构函数  子类无法继承 但是可以在子类
+的构造函数初始化表中指明基类部分的初始化方式 
+
+class 子类:public 基类{
+    //基类(...)指明基类子对象的初始化方式 
+    子类(...)：基类(...){}
+};
+
+访问控制属性：影响访问该类成员的位置 
+访问控制  访问控制 内部 子类 外部  友元
+限定符     属性    访问 访问 访问  函数 
+public    公有成员  ok   ok   ok    ok 
+protected 保护成员  ok   ok   no    ok 
+private   私有成员  ok   no   no    ok 
+
+子类拷贝构造 和 拷贝赋值 
+1) 拷贝构造函数
+2) 拷贝赋值操作符函数 
+
+子类没有定义拷贝赋值函数 
+
+编译器会为子类提供缺省的拷贝赋值函数  
+该函数会自动调用基类赋值函数的拷贝赋值函数  完成 
+对基类子对象的复制 
+
+如果子类定义拷贝赋值函数 需要在该函数中显示的调用基类
+的拷贝赋值函数  完成对基类对下给你的复制 
+
+多重继承 
+一个子类同时继承多个基类 称为 多重继承 
+电话   播放器   计算机   智能手机
+多重继承在向上造型时, 编译器会根据各个基类子对象在
+内存的布局 进行适当的偏移计算 保证指针的类型 与 其它所指
+向目标对象的类型一致 
+
+虚继承 
+1) 在继承表中使用 virtual 关键字 
+2) 位于继承链末端子类负责构造公共基类子对象
+注：公共基类的所有子类都要在构造函数初始化表中，指明
+公共基类子对象的初始化方式，否则编译器将选择以无参的方式
+来构造子对象。
+
+23. 主要 I/O 流类
+
+ios 
+
+istream     ostream
+
+类的声明 和 类的实现是 分开的
+.h  是 声明  .cpp 是类的实现
+
+#pragma once //只包含一次
+
+class MyTeacher{
+
+}
+
+#include<stdi.h>
+补充：
+[] = == != 难点 
+运算符重载是的用户自定义的数据以一种更简单的方式工作
+int x y;
+y = x + y;
+complex c1,c2;
+ma
+
+#include <iostream>
+using namespace std;
+
+class Complex{
+private:
+    int a;
+    int b；
+public：
+    Complex(int a=0,int b =0){
+        this->a = a;
+        this->b = b;
+    }
+}
+
+void main() {
+    int a = 0,b =0;
+    int c;
+    c = a + b;
+    Complex c1(1,2),c2(3,4);
+    //类 也是一种数据类型 用户自定义数据类型 C++编译器一般匹配规则：
+    是不知道如何进行运算
+    //C++编译器应该给我们程序员提供一种机制...
+    //让自定义数据类型 有机会 进行 运算符操作 ==》运算符重载机制
+
++的运算符重载
+    全局函数：
+     Complex myAdd(Complex &c1, Complex &c){
+        Complex tmp(c1.a + c2.a,c1.b + c2.b);
+        return tmp;
+     }
+}
+
+     Complex operator+(Complex &c1, Complex &c){
+        Complex tmp(c1.a + c2.a,c1.b + c2.b);
+        return tmp;
+     }
+
+c4 = c2 + c1;
+运算符重载的两种方法：     
+成员函数 或 友元函数重载运算发
+1.全局函数的方式
+2.成员函数的方式    
+运算符的本质就是一个函数
+. :: >* ?= sizeof 不能重载 
++ -   可以就是一个重载
+
+参数 是左操着数 和 右操着数
+
+步骤：
+1) 承认操作符重载是一个函数 写出函数名 
+2) 根据操作数 写出函数参数 
+3) 根据业务 完善函数返回值 及实现函数业务
+c3 = c1 + c2;
+Complex operato+(Complex &c1,Complex &c1){};
+
+c1.operator+(c2)
+Complex operator-(Complex &c2)
+
+void operator=(Name &obj1){
+    if(this->m_p!=NULL){
+        delete[] m_p;
+        m_lenv = 0;
+    }
+    this->m_len = obj1.m_len;
+    this->m_p = new char [m_len + 1];
+    strcpy(m_p,obj1);
+    return;
+}
+
+obj2.operator=(obj3)
+
+= 结论
+1. 先把原内存释放
+2. 根据空间重新分配内存
+strcpy(m_p, obj1);
+3. 返回一个引用
+
+谈谈你对多态的理解
+1. 表面
+同样的调用语句有不同的表现的形态
+动态的 父类 子类 祖宗类 的不同的表现形态 
+
+2. 条件
+有继承 virtul重写 有父类指针指向子类对象 
+
+3. 原理 
+virtual 告诉 C++ 要使用动态年变动态联编 
+不是根据执政类型而是根据指针所指向的实际
+对象类型来判断如何使用。
+运行的时候
+
+4. 多态的重要意义 
+设计模式的基础 是框架的基石 
+MFC QT 框架都是多态的
+
+5.实现多态的理论基础 
+
+函数指针做函数参数 
+C函数指针是C++至高无上的荣耀 
+C函数指针一般有两种用法 正反 
+多态原理探究 
+多态就是 C++编译器,提前布下的一个vptr指针 
+通过vptr指针找到虚函数表,从而找到了函数入口地址,最终
+来动态实现的延迟绑定。
+
+面向抽象类编程 面向接口编程 是 项目开发中重要的技能之一
+抽象类 模块要求松  接口要求紧. 
