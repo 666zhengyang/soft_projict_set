@@ -2,50 +2,52 @@
  * @Descripttion: Copyright (C) SHENZHEN JoyLife Robot Co.
  * @version: v0.01
  * @Author: zhengyang
- * @Date: 2021-06-07 20:18:57
+ * @Date: 2022-01-28 11:40:24
  * @LastEditors: zhengyang
- * @LastEditTime: 2022-01-26 20:15:10
+ * @LastEditTime: 2022-01-28 15:58:39
  */
 
 /*
-    状态模式：允许一个对象在其内部状态改变时改变它的行为。
-    对象看起来似乎修改了它的类。
-    它有两种使用情况：（1）一个对象的行为取决于它的状态, 并且它必须在运行时刻根据状态改变它的行为。（2）一个操作中含有庞大的多分支的条件语句，且这些分支依赖于该对象的状态。
-    本文的例子为第一种情况，以战争为例，假设一场战争需经历四个阶段：前期、中期、后期、结束。当战争处于不同的阶段，战争的行为是不一样的，也就说战争的行为取决于所处的阶段，而且随着时间的推进是动态变化的。
-    下面给出相应的UML图。
+状态模式：允许一个对象在其内部状态改变时改变它的行为。
+对象看起来似乎修改了它的类。
+它有两种使用情况：
+（1）一个对象的行为取决于它的状态, 并且它必须在运行时刻根据状态改变它的行为。
+（2）一个操作中含有庞大的多分支的条件语句，且这些分支依赖于该对象的状态。
+本文的例子为第一种情况，以战争为例，假设一场战争需经历四个阶段：前期、中期、后期、结束。
+当战争处于不同的阶段，战争的行为是不一样的，也就说战争的行为取决于所处的阶段，而且随着时间的推进是动态变化的.
 */
-#include <string>
+
 #include <iostream>
-#include <vector>
 using namespace std;
 
-class War;  
+class War;  // 声明战争的类
+
 class State   
 {  
 public:  
-    virtual void Prophase() {}  
-    virtual void Metaphase() {}  
-    virtual void Anaphase() {}  
-    virtual void End() {}  
+    virtual void Prophase() {}  // 初期
+    virtual void Metaphase() {}  // 中期
+    virtual void Anaphase() {}  // 后期
+    virtual void End() {}  // 结束期
     virtual void CurrentState(War *war) {}  
 };  
+
 // 战争  
 class War  
 {  
 private:  
-    State *m_state;  //目前状态  
-    int m_days;      //战争持续时间  
+    State *m_state;  // 目前状态  
+    int m_days;      // 战争持续时间  
 public:  
-    War(State *state): m_state(state), m_days(0) {}  
-    ~War() { delete m_state; }  
+    War(State *state): m_state(state), m_days(0) {}  // 初始化状态 和 日期
+    ~War() { delete m_state; }   // 析构状态
     int GetDays() { return m_days; }  
     void SetDays(int days) { m_days = days; }  
     void SetState(State *state) { delete m_state; m_state = state; }  
     void GetState() { m_state->CurrentState(this); }  
-};  
- 
-//给出具体的状态类：
-//战争结束  
+};
+
+// 战争结束  
 class EndState: public State  
 {  
 public:  
@@ -54,8 +56,9 @@ public:
         cout<<"战争结束"<<endl;  
     }  
     void CurrentState(War *war) { End(war); }  
-};  
-//后期  
+}; 
+
+// 后期  
 class AnaphaseState: public State  
 {  
 public:  
@@ -70,8 +73,9 @@ public:
         }  
     }  
     void CurrentState(War *war) { Anaphase(war); }  
-};  
-//中期  
+}; 
+
+// 中期  
 class MetaphaseState: public State  
 {  
 public:  
@@ -86,8 +90,9 @@ public:
         }  
     }  
     void CurrentState(War *war) { Metaphase(war); }  
-};  
-//前期  
+}; 
+
+// 前期  
 class ProphaseState: public State  
 {  
 public:  
@@ -102,9 +107,8 @@ public:
         }  
     }  
     void CurrentState(War *war) { Prophase(war); }  
-}; 
- 
-// 使用方式：
+};
+
 int main()  
 {  
     War *war = new War(new ProphaseState());  
@@ -115,4 +119,4 @@ int main()
     }  
     delete war;  
     return 0;  
-}  
+} 
